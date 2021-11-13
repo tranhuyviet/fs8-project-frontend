@@ -1,14 +1,17 @@
 import React from 'react';
+import Link from 'next/link'
 
 const Navbar = () => {
     return (
-        <nav className='h-16 shadow-xl'>
+        <nav className='h-16 shadow-md'>
             <div className='container h-full flex items-center'>
-                <h1 className='uppercase font-bold text-xl first-letter:text-green-600 tracking-widest'>
+                <h1 className='uppercase font-bold text-xl tracking-widest text-gray-700'>
                     E-COMMERCE
                 </h1>
-                <div className='flex items-center space-x-4 ml-auto'>
-                    <p>Navbar</p>
+                <div className='flex items-center space-x-3 ml-auto'>
+                    <Link href="/"><a className='hover:font-bold transition duration-300'>Log in</a></Link>
+                    <div className='w-[1px] h-[24px] bg-gray-200' />
+                    <button className='btn uppercase'>Sign up for free</button>
                 </div>
             </div>
         </nav>
