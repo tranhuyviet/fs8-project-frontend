@@ -72,6 +72,7 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
     if (filter.category) newUrl = newUrl + '&category=' + filter.category
     if (filter.variant) newUrl = newUrl + '&variant=' + filter.variant
     if (filter.size) newUrl = newUrl + '&size=' + filter.size
+    if (filter.name) newUrl = newUrl + '&name=' + filter.name
     setUrl(rootUrl + newUrl)
   }, [filter, rootUrl])
 
