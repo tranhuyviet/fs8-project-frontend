@@ -24,6 +24,11 @@
     }
 
     .search-input {
-        @apply border py-[10px] px-4 pl-9 text-gray-600 outline-none focus:border-gray-700;
+        /* @apply border py-[10px] px-4 pl-9 text-gray-600 outline-none focus:border-gray-700; */
+        @apply pl-9;
+    }
+
+    .form {
+        @apply shadow-sm focus:border-0 focus:ring-gray-900;
     }
 }

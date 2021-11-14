@@ -3,6 +3,7 @@ import Hero from '../components/homePage/Hero'
 import ProductList from '../components/homePage/ProductList'
 import { GetStaticProps, GetServerSideProps, NextPage } from 'next'
 import axios from 'axios'
+import Filters from '../components/homePage/Filters'
 
 export interface IData {
   status: string
@@ -47,7 +48,7 @@ export interface IUser {
   image?: string
 }
 
-const Home: NextPage<{ data: IData }> = ({ data }) => {
+const Home: NextPage<{ products: IProduct[], categories: ICategory[], variants: IVariant[], sizes: ISize[] }> = ({ products, categories, variants, sizes }) => {
 
   return (
     <div >
@@ -59,7 +60,8 @@ const Home: NextPage<{ data: IData }> = ({ data }) => {
 
       <main className="container">
         <Hero />
-        <ProductList data={data} />
+        <Filters categories={categories} variants={variants} sizes={sizes} total={products.length as number} />
+        <ProductList products={products} />
         {/* {JSON.stringify(data, null, 2)} */}
       </main>
     </div>
@@ -68,18 +70,32 @@ const Home: NextPage<{ data: IData }> = ({ data }) => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
+    // get all categories
+    const resCategories = await axios.get('http://localhost:5001/api/v1/categories')
+    const categories: ICategory[] = resCategories.data.data
+    if (!categories) throw new Error('Can not get Categories')
+
+    // get all variants
+    const resVariants = await axios.get('http://localhost:5001/api/v1/variants')
+    const variants: IVariant[] = resVariants.data.data
+    if (!variants) throw new Error('Can not get Variants')
+
+    // get all sizes
+    const resSizes = await axios.get('http://localhost:5001/api/v1/sizes')
+    const sizes: ISize[] = resSizes.data.data
+    if (!sizes) throw new Error('Can not get Sizes')
+
     // get all product
-    const apiGetAllProducts = "http://localhost:5001/api/v1/products"
-    const res = await axios.get(apiGetAllProducts)
-
-    const data: IData = res.data
-
-    if (!(data && data.status === "success"))
-      throw new Error('Can not get the data')
+    const resProducts = await axios.get("http://localhost:5001/api/v1/products")
+    const products: IProduct[] = resProducts.data.data
+    if (!products) throw new Error('Can not get Products')
 
     return {
       props: {
-        data
+        products,
+        categories,
+        variants,
+        sizes
       }
     }
   } catch (error) {
