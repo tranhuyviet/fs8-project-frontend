@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import React from 'react'
 import { IData } from '../../pages/index'
+import ProductCard from './ProductCard';
 
 
 const ProductList: NextPage<{ data: IData }> = ({ data }) => {
@@ -25,11 +26,9 @@ const ProductList: NextPage<{ data: IData }> = ({ data }) => {
             </form>
 
             {/* list of products */}
-            <div>
+            <div className="py-8 grid grid-cols-4 gap-6">
                 {products.map(product => (
-                    <div key={product._id}>
-                        <h2>{product.name}</h2>
-                    </div>
+                    <ProductCard key={product._id} product={product} />
                 ))}
             </div>
         </section>
