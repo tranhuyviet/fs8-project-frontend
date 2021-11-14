@@ -1,13 +1,23 @@
 import { NextPage } from 'next'
-import React from 'react'
-import { ICategory, ISize, IVariant } from '../../pages'
+import React, { useState } from 'react'
+import { ICategory, ISize, IVariant, IProductFilter } from '../../pages'
 
-const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], total: number }> = ({ categories, variants, sizes, total }) => {
-    console.log('CAC', sizes)
+const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], filter: IProductFilter, setFilter: React.Dispatch<IProductFilter> }> = ({ categories, variants, sizes, filter, setFilter }) => {
+    const [category, setCategory] = useState<string>()
+
+    const filterCategoryHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCategory(e.target.value)
+        setFilter({ ...filter, category: e.target.value })
+        //     const newUrl = url + '&category=' + e.target.value
+        //    setUrl(newUrl)
+    }
+
+
+    console.log(category)
     return (
         <section className="mt-8">
             <h1 className="title">Our Product</h1>
-            <h2 className="text-base mt-2">Total: <span className="font-bold">{total}</span> products</h2>
+            {/* <h2 className="text-base mt-2">Total: <span className="font-bold">{total}</span> products</h2> */}
             <form>
                 <div className="flex items-center space-x-4 mt-4">
                     <div className="relative  h-[42px] flex-auto ">
@@ -17,7 +27,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                         </svg>
                     </div>
                     <div>
-                        <select name="categories" id="categories" className="form">
+                        <select name="categories" id="categories" className="form" value={category} onChange={filterCategoryHandler}>
                             <option value="">All Categories</option>
                             {categories && categories.map(category => (
                                 <option value={category._id} key={category._id} >{category.name}</option>
