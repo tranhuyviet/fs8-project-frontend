@@ -59,7 +59,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                         <select name="variants" id="variants" className="form" value={variant} onChange={filterVariantHandler}>
                             <option value="">All Colors</option>
                             {variants && variants.map(variant => (
-                                <option value={variant._id} key={variant._id} >{variant.name}</option>
+                                <option value={variant._id} key={variant._id}>{variant.name}</option>
                             ))}
 
                         </select>

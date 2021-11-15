@@ -38,6 +38,7 @@ export interface ICategory {
 export interface IVariant {
   _id: string
   name: string
+  colorHex: string
 }
 
 export interface ISize {
