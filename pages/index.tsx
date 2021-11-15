@@ -7,7 +7,7 @@ import axios from 'axios'
 import Filters from '../components/homePage/Filters'
 
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { changeApiEndpoint } from '../redux/slices/apiEnpointSlice'
+import { setFilterProductEndpoint, setProductsEndpoint } from '../redux/slices/apiEnpointSlice'
 
 export interface IData {
   status: string
@@ -63,6 +63,9 @@ export interface IProductFilter {
 
 const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], rootUrl: string }> = ({ categories, variants, sizes, rootUrl }) => {
   const dispatch = useAppDispatch()
+  // set products endpoint
+  dispatch(setProductsEndpoint(rootUrl + "/products"))
+
   const [filter, setFilter] = useState<IProductFilter>({
     page: 1,
     limit: 10
@@ -76,7 +79,7 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
     if (filter.variant) newUrl = newUrl + '&variant=' + filter.variant
     if (filter.size) newUrl = newUrl + '&size=' + filter.size
     if (filter.name) newUrl = newUrl + '&name=' + filter.name
-    dispatch(changeApiEndpoint(rootUrl + newUrl))
+    dispatch(setFilterProductEndpoint(rootUrl + newUrl))
   }, [filter, rootUrl, dispatch])
 
 

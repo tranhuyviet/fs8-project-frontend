@@ -22,7 +22,7 @@ const fetchProducts = async (url: string) => {
 }
 
 const ProductList = () => {
-    const apiEnpoint = useAppSelector(state => state.apiEndpoint.apiEnpoint)
+    const apiEnpoint = useAppSelector(state => state.apiEndpoint.filterProductEndpoint)
     console.log('URL: ', apiEnpoint)
     const { data, error } = useSWR(apiEnpoint, fetchProducts)
     const products = data

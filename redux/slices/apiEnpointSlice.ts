@@ -1,22 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IApiEndpoint {
-    apiEnpoint: string;
+    filterProductEndpoint: string;
+    productsEndpoint: string;
 }
 
 const initialState: IApiEndpoint = {
-    apiEnpoint: '',
+    filterProductEndpoint: '',
+    productsEndpoint: process.env.NEXTAUTH_URL,
 };
 
 const apiEnpointSlice = createSlice({
     name: 'api-endpoint',
     initialState,
     reducers: {
-        changeApiEndpoint(state, action: PayloadAction<string>) {
-            state.apiEnpoint = action.payload;
+        setFilterProductEndpoint(state, action: PayloadAction<string>) {
+            state.filterProductEndpoint = action.payload;
+        },
+        setProductsEndpoint(state, action: PayloadAction<string>) {
+            state.productsEndpoint = action.payload;
         },
     },
 });
 
-export const { changeApiEndpoint } = apiEnpointSlice.actions;
+export const { setFilterProductEndpoint, setProductsEndpoint } =
+    apiEnpointSlice.actions;
 export default apiEnpointSlice.reducer;
