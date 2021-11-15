@@ -5,6 +5,7 @@ import ProductCard from './ProductCard';
 import useSWR from 'swr'
 import axios from 'axios'
 import ReactLoading from 'react-loading'
+import { useAppSelector } from '../../redux/hooks'
 
 
 const fetchProducts = async (url: string) => {
@@ -20,10 +21,10 @@ const fetchProducts = async (url: string) => {
     }
 }
 
-const ProductList: NextPage<{ url: string }> = ({ url }) => {
-
-    console.log('URL: ', url)
-    const { data, error } = useSWR(url, fetchProducts)
+const ProductList = () => {
+    const apiEnpoint = useAppSelector(state => state.apiEndpoint.apiEnpoint)
+    console.log('URL: ', apiEnpoint)
+    const { data, error } = useSWR(apiEnpoint, fetchProducts)
     const products = data
     const handleSubmitSearch = (e: React.FormEvent) => {
         e.preventDefault();

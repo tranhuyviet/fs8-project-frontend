@@ -27,10 +27,9 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
     }
 
     // search by product name
-    const searchByNameHandler = (e) => {
+    const searchByNameHandler = (e: React.SyntheticEvent) => {
         e.preventDefault()
         setFilter({ ...filter, name })
-
     }
 
     return (

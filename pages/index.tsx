@@ -6,6 +6,9 @@ import { GetStaticProps, GetServerSideProps, NextPage } from 'next'
 import axios from 'axios'
 import Filters from '../components/homePage/Filters'
 
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { changeApiEndpoint } from '../redux/slices/apiEnpointSlice'
+
 export interface IData {
   status: string
   total: number
@@ -59,11 +62,11 @@ export interface IProductFilter {
 }
 
 const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], rootUrl: string }> = ({ categories, variants, sizes, rootUrl }) => {
+  const dispatch = useAppDispatch()
   const [filter, setFilter] = useState<IProductFilter>({
     page: 1,
     limit: 10
   })
-  const [url, setUrl] = useState<string>()
 
   useEffect(() => {
     let newUrl = '/products?'
@@ -73,10 +76,9 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
     if (filter.variant) newUrl = newUrl + '&variant=' + filter.variant
     if (filter.size) newUrl = newUrl + '&size=' + filter.size
     if (filter.name) newUrl = newUrl + '&name=' + filter.name
-    setUrl(rootUrl + newUrl)
-  }, [filter, rootUrl])
+    dispatch(changeApiEndpoint(rootUrl + newUrl))
+  }, [filter, rootUrl, dispatch])
 
-  console.log('INDEX URL', url)
 
   return (
     <div >
@@ -89,14 +91,14 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
       <main className="container">
         <Hero />
         <Filters categories={categories} variants={variants} sizes={sizes} filter={filter} setFilter={setFilter} />
-        <ProductList url={url} />
+        <ProductList />
         {/* {JSON.stringify(data, null, 2)} */}
       </main>
     </div>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   try {
 
     const rootUrl = process.env.NEXTAUTH_URL + '/api/v1'
