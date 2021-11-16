@@ -10,7 +10,7 @@
     }
 
     .btn {
-        @apply min-w-[240px] text-base text-center py-3 px-6 shadow-md font-semibold tracking-wide  transition-all duration-300
+        @apply min-w-[240px] text-base text-center py-3 px-6 shadow-md font-semibold tracking-wide  transition-all duration-300 uppercase block
         bg-gray-700 text-gray-50 hover:bg-gray-400;
     }
 
@@ -29,6 +29,6 @@
     }
 
     .form {
-        @apply shadow-sm focus:border-0 focus:ring-gray-900;
+        @apply shadow-sm focus:border-0 focus:ring-gray-900 focus:ring-2;
     }
 }

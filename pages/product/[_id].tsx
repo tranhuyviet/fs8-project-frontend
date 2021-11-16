@@ -57,7 +57,7 @@ const ProductDetailPage: NextPage<{ product: IProduct }> = ({ product }) => {
                     </div>
 
                     <div className="text-center mt-6">
-                        <button className="btn">Add to cart</button>
+                        <button className="btn w-full">Add to cart</button>
                     </div>
 
 
