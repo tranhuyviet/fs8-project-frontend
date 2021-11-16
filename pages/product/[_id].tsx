@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import axios from 'axios'
 import { IProduct } from '../index'
 import Image from 'next/image'
+import Head from 'next/head'
 
 const imageNotAvailable: string = 'https://res.cloudinary.com/dzaxf70c4/image/upload/v1636620809/img-not-available_exqzad.png'
 
@@ -13,8 +14,13 @@ const ProductDetailPage: NextPage<{ product: IProduct }> = ({ product }) => {
     const [selectSize, setSelectSize] = useState<string>()
 
     return (
-        <main className="container py-4">
-            <div className="grid grid-cols-12 h-min-[calc(100vh-64px-64px)]">
+        <main className="container py-4 min-h-[calc(100vh-64px-64px)]">
+            <Head>
+                <title>Ecommerce Website: {product.name}</title>
+                <meta name="description" content="Ecommerce Website" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <div className="grid grid-cols-12 ] h-full">
                 {/* left side: show list of thumb images */}
                 <div className=" col-span-6 flex">
                     <div className="flex-none flex flex-col space-y-4 mr-4 cursor-pointer">
@@ -63,7 +69,7 @@ const ProductDetailPage: NextPage<{ product: IProduct }> = ({ product }) => {
 
 
 export const getStaticPaths = async () => {
-    console.log(process.env.NEXTAUTH_URL)
+    console.log('detail path', process.env.NEXTAUTH_URL)
     const res = await axios.get(`${process.env.BASE_ENDPOINT_URL}/products`)
     const products: IProduct[] = res.data.data
     const paths = products.map(product => {
@@ -73,18 +79,20 @@ export const getStaticPaths = async () => {
     })
     return {
         paths,
-        fallback: false
+        fallback: true
     }
 }
 
 export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+    console.log('detail props')
     const _id = context.params._id
     const res = await axios.get(`${process.env.BASE_ENDPOINT_URL}/products/${_id}`)
     const product: IProduct = res.data.data
     if (!product) throw new Error('Can not find the product by provided ID')
 
     return {
-        props: { product }
+        props: { product },
+        revalidate: 5
     }
 }
 

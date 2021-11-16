@@ -10,8 +10,8 @@
     }
 
     .btn {
-        @apply py-2 px-6 rounded-full shadow-md  font-semibold tracking-wide  transition-all duration-300
-        bg-gray-600 text-gray-50 hover:bg-gray-400;
+        @apply min-w-[240px] text-base text-center py-3 px-6 shadow-md font-semibold tracking-wide  transition-all duration-300
+        bg-gray-700 text-gray-50 hover:bg-gray-400;
     }
 
     .btn-reverse {
