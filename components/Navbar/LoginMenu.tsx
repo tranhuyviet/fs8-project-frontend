@@ -35,11 +35,16 @@ const LoginMenu = () => {
                 {/* if logged in */}
                 {auth.isLoggedIn && (
                     <>
-                        <div className="flex flex-col items-center justify-center ">
-                            <img src={user.image || 'https://res.cloudinary.com/dzaxf70c4/image/upload/v1636489332/avatar_tcj5dx.png'} alt="avatar" className="rounded-full w-14 h-14" />
-                            <h2 className="mt-2 text-base font-semibold">{user.name}</h2>
+                        <div className="flex items-center pb-3 border-b">
+                            <img src={user.image || 'https://res.cloudinary.com/dzaxf70c4/image/upload/v1636489332/avatar_tcj5dx.png'} alt="avatar" className="w-[70px] h-[70px] rounded-full " />
+                            <div className="ml-4">
+                                <h2 className="mt-2 text-base font-semibold">{user.name}</h2>
+                                <p className="text-gray-500">{user.email}</p>
+                                <p className="mt-1 text-xs text-gray-500">{user.role}</p>
+                            </div>
                         </div>
-
+                        <Link href="/user/profile"><a className="menuLink">Edit Profile</a></Link>
+                        <Link href="/user/profile"><a className="menuLink">Change Password</a></Link>
                         <div className="h-[1px] w-full bg-gray-200 mt-4 mb-6" />
                         <button className="w-full btn" onClick={handleLogout}>Logout</button>
                     </>
