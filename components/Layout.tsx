@@ -5,7 +5,9 @@ const Layout: React.FC = ({ children }) => {
     return (
         <div>
             <Navbar />
-            {children}
+            <div className="min-h-[calc(100vh-64px-64px)] py-4">
+                {children}
+            </div>
             <Footer />
         </div>
     );

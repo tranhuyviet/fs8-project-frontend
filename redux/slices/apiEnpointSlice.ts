@@ -17,12 +17,8 @@ const apiEnpointSlice = createSlice({
         setFilterProductEndpoint(state, action: PayloadAction<string>) {
             state.filterProductEndpoint = action.payload;
         },
-        setProductsEndpoint(state, action: PayloadAction<string>) {
-            state.productsEndpoint = action.payload;
-        },
     },
 });
 
-export const { setFilterProductEndpoint, setProductsEndpoint } =
-    apiEnpointSlice.actions;
+export const { setFilterProductEndpoint } = apiEnpointSlice.actions;
 export default apiEnpointSlice.reducer;

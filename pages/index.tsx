@@ -7,7 +7,7 @@ import axios from 'axios'
 import Filters from '../components/homePage/Filters'
 
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { setFilterProductEndpoint, setProductsEndpoint } from '../redux/slices/apiEnpointSlice'
+import { setFilterProductEndpoint } from '../redux/slices/apiEnpointSlice'
 
 export interface IData {
   status: string
@@ -65,7 +65,7 @@ export interface IProductFilter {
 const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], rootUrl: string }> = ({ categories, variants, sizes, rootUrl }) => {
   const dispatch = useAppDispatch()
   // set products endpoint
-  dispatch(setProductsEndpoint(rootUrl + "/products"))
+  // dispatch(setProductsEndpoint(rootUrl + "/products"))
 
   const [filter, setFilter] = useState<IProductFilter>({
     page: 1,
@@ -105,20 +105,20 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
 
-    const rootUrl = process.env.NEXTAUTH_URL + '/api/v1'
+    const rootUrl = process.env.BASE_ENDPOINT_URL
 
     // get all categories
-    const resCategories = await axios.get(`${rootUrl}/categories`)
+    const resCategories = await axios.get(`/categories`)
     const categories: ICategory[] = resCategories.data.data
     if (!categories) throw new Error('Can not get Categories')
 
     // get all variants
-    const resVariants = await axios.get(rootUrl + '/variants')
+    const resVariants = await axios.get('/variants')
     const variants: IVariant[] = resVariants.data.data
     if (!variants) throw new Error('Can not get Variants')
 
     // get all sizes
-    const resSizes = await axios.get(rootUrl + '/sizes')
+    const resSizes = await axios.get('/sizes')
     const sizes: ISize[] = resSizes.data.data
     if (!sizes) throw new Error('Can not get Sizes')
 
@@ -129,7 +129,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return {
       props: {
-        // products,
         rootUrl,
         categories,
         variants,
