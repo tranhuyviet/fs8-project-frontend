@@ -8,6 +8,11 @@ import Filters from '../components/homePage/Filters'
 
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { setFilterProductEndpoint } from '../redux/slices/apiEnpointSlice'
+import { login } from '../redux/slices/authSlice'
+
+import jwtDecode from 'jwt-decode'
+import mongoose from 'mongoose'
+import { IUser as IUserAuth } from '../redux/slices/authSlice'
 
 export interface IData {
   status: string
@@ -62,8 +67,13 @@ export interface IProductFilter {
   size?: string
 }
 
-const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], rootUrl: string }> = ({ categories, variants, sizes, rootUrl }) => {
+const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], rootUrl: string, user: IUserAuth }> = ({ categories, variants, sizes, rootUrl, user }) => {
   const dispatch = useAppDispatch()
+
+  // console.log('USER INDEX', user)
+  if (user) {
+    dispatch(login(user))
+  }
   // set products endpoint
   // dispatch(setProductsEndpoint(rootUrl + "/products"))
 
@@ -102,7 +112,7 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
   )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   try {
 
     const rootUrl = process.env.BASE_ENDPOINT_URL
@@ -127,12 +137,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
     // const products: IProduct[] = resProducts.data.data
     // if (!products) throw new Error('Can not get Products')
 
+    const token = context.req.cookies.ecommerceJwt
+    let user: IUserAuth = null
+    if (token && token !== 'loggedout') {
+      user = jwtDecode(token)
+    }
+
     return {
       props: {
         rootUrl,
         categories,
         variants,
-        sizes
+        sizes,
+        user
       }
     }
   } catch (error) {

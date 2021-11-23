@@ -4,9 +4,6 @@ import { useFormik } from 'formik'
 import axios from 'axios'
 import React from 'react'
 import GlobalErrorMessage from '../components/formElement/GlobalErrorMessage'
-import { providers, getSession, csrfToken } from 'next-auth/client';
-import { GetServerSideProps } from 'next'
-import { signIn } from 'next-auth/client'
 
 import { useAppDispatch } from '../redux/hooks'
 import { login } from '../redux/slices/authSlice'
@@ -15,6 +12,7 @@ import { useRouter } from 'next/router'
 import jwtDecode from 'jwt-decode'
 import { IUser } from '../redux/slices/authSlice'
 import mongoose from 'mongoose'
+import redirect from '../utils/redirect'
 
 interface ILogin {
     email: string
@@ -39,7 +37,6 @@ const LoginPage = () => {
             const axiosConfig = {
                 headers: {
                     'Content-Type': 'application/json',
-                    // "Access-Control-Allow-Origin": "*",
                 },
 
             };
@@ -49,24 +46,10 @@ const LoginPage = () => {
             dispatch(login(user))
 
             router.push('/')
-
-
-            // const res = await fetch('http://localhost:5001/api/v1/users/login', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     credentials: 'include',
-            //     body: JSON.stringify(values)
-            // })
-            // const data = await res.json()
-            // console.log('DATAAAAAAAAA: ', data)
-
         } catch (error) {
-            // console.log('LOGIN ERROR', error.response.data)
             setErrors(error.response.data.errors)
         }
     }
-
-    // console.log('ERRORS', errors)
 
     return (
         <main className="container">
@@ -98,17 +81,22 @@ const LoginPage = () => {
 }
 
 export async function getServerSideProps(context) {
-    const token = context.req.cookies.ecommerceJwt
-    const user: IUser = jwtDecode(token)
+    try {
+        const token = context.req.cookies.ecommerceJwt
+        if (token && token !== 'loggedout') {
+            const user: IUser = jwtDecode(token)
+            if (user && mongoose.Types.ObjectId.isValid(user._id) && !user.banned) return { redirect: { destination: '/', permanent: false } };
+        }
 
-    if (user && mongoose.Types.ObjectId.isValid(user._id) && !user.banned) return { redirect: { destination: '/', permanent: false } };
-
-
+    } catch (error) {
+        console.log(error)
+    }
     return {
         props: {
-            user
+            user: {}
         },
     };
+
 }
 
 export default LoginPage
