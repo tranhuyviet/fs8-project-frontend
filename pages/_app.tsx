@@ -12,6 +12,10 @@ axios.defaults.baseURL = 'http://localhost:5001/api/v1'
 axios.defaults.withCredentials = true
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // const router = useRouter()
+  // const unAuthRoutes = ['/', '/login', '/register']
+  // const unAuthRoute = unAuthRoutes.includes(router.pathname)
+
   return (
     <Provider store={store}>
       <Layout>

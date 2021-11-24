@@ -3,7 +3,7 @@ import Input from '../components/formElement/Input'
 import { useFormik } from 'formik'
 import axios from 'axios'
 import React from 'react'
-import GlobalErrorMessage from '../components/formElement/GlobalErrorMessage'
+import GlobalMessage from '../components/formElement/GlobalMessage'
 
 import { useAppDispatch } from '../redux/hooks'
 import { login } from '../redux/slices/authSlice'
@@ -62,7 +62,7 @@ const LoginPage = () => {
                     </div>
                     <h1 className="mt-4 text-2xl font-bold tracking-wider text-center uppercase font-poppins">Login</h1>
                     {errors.global &&
-                        <GlobalErrorMessage error={errors?.global} className="mt-4" />
+                        <GlobalMessage error={errors?.global} className="mt-4" />
                     }
                     <Input label="email" type="email" name="email" value={values.email} onChange={handleChange} error={errors?.email} />
                     <Input label="password" type="password" name="password" value={values.password} onChange={handleChange} error={errors?.password} />

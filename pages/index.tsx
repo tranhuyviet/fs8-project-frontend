@@ -93,6 +93,7 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
     dispatch(setFilterProductEndpoint(rootUrl + newUrl))
   }, [filter, rootUrl, dispatch])
 
+  console.log('INDEX RENDER')
 
   return (
     <div >
