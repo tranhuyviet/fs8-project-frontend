@@ -35,4 +35,12 @@
     .menuLink {
         @apply block mt-4 text-base transition-all duration-300 hover:font-bold hover:text-indigo-600;
     }
+
+    .sideMenuBtn {
+        @apply px-6 py-3 text-left  hover:font-bold w-[150px] text-base;
+    }
+
+    .dashboardTitle {
+        @apply text-xl font-semibold tracking-wider text-center uppercase font-poppins;
+    }
 }

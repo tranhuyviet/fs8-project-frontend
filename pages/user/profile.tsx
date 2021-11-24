@@ -20,9 +20,9 @@ const Profile = () => {
     const user = auth.user
     const dispatch = useAppDispatch()
     const initialValues: IProfile = {
-        name: user.name || '',
-        email: user.email || '',
-        image: user.image || ''
+        name: user?.name || '',
+        email: user?.email || '',
+        image: user?.image || ''
     }
 
     const { values, handleChange, handleSubmit, errors, setErrors } = useFormik<IProfile>({ initialValues, onSubmit })

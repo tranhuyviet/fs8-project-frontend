@@ -48,6 +48,9 @@ const LoginMenu = () => {
                         </div>
                         <Link href="/user/profile"><a className="menuLink">Edit Profile</a></Link>
                         <Link href="/user/change-password"><a className="menuLink">Change Password</a></Link>
+                        {auth.user.role === "admin" ? (
+                            <Link href="/user/dashboard"><a className="menuLink">Dashboard</a></Link>
+                        ) : null}
                         <div className="h-[1px] w-full bg-gray-200 mt-4 mb-6" />
                         <button className="w-full btn" onClick={handleLogout}>Logout</button>
                     </>
