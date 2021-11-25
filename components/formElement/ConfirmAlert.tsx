@@ -1,17 +1,18 @@
-import { NextPage } from 'next'
 import React from 'react'
-import { IConfirm } from '../dashboardPage/User'
-import axios from 'axios'
+import { IAction } from '../dashboardPage/User'
 
-const ConfirmAlert = ({ confirm, closeConfirm, handleDeleteUser }) => {
-
+const ConfirmAlert = ({ confirm, closeConfirm, handleDeleteUser, handleToggleBanUser }) => {
 
     const handleYes = async () => {
         try {
             console.log('CONFIRM ACTION: ', confirm.action)
             // DELETE USER
-            if (confirm.action === 'delete') {
+            if (confirm.action === IAction.delete) {
                 await handleDeleteUser()
+            }
+            // TOOGLE BANNED USER
+            if (confirm.action === IAction.ban || confirm.action === IAction.unban) {
+                await handleToggleBanUser()
             }
         } catch (error) {
             console.log('Delete error')
