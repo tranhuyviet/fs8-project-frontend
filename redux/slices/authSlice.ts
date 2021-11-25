@@ -8,6 +8,7 @@ export interface IUser {
     role: string;
     token: string;
     _id: string;
+    createdAt: string;
 }
 
 const initialState = {

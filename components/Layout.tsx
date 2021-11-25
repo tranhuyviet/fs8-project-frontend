@@ -3,7 +3,7 @@ import Navbar from './Navbar/Navbar';
 
 const Layout: React.FC = ({ children }) => {
     return (
-        <div>
+        <div className="relative">
             <Navbar />
             <div className="min-h-[calc(100vh-64px-64px)] py-4">
                 {children}

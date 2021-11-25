@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 interface IGlobal {
-    success: string
+    success?: string
     error?: string
     className?: string
 }
