@@ -46,10 +46,10 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                     </div>
                     {/* CATEGORY SELECT BOX */}
                     <div>
-                        <select name="categories" id="categories" className="form" value={category} onChange={filterCategoryHandler}>
+                        <select name="categories" id="categories" className="form capitalize" value={category} onChange={filterCategoryHandler} >
                             <option value="">All Categories</option>
                             {categories && categories.map(category => (
-                                <option value={category._id} key={category._id} >{category.name}</option>
+                                <option value={category._id} key={category._id}>{category.name}</option>
                             ))}
 
                         </select>

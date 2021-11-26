@@ -22,6 +22,7 @@
         "react-dom": "17.0.2",
         "react-loading": "^2.0.3",
         "react-redux": "^7.2.6",
+        "react-scroll": "^1.8.4",
         "redux": "^4.1.2",
         "redux-devtools-extension": "^2.13.9",
         "swr": "^1.0.1"
@@ -35,6 +36,7 @@
         "@types/node": "16.11.7",
         "@types/react": "17.0.34",
         "@types/react-redux": "^7.1.20",
+        "@types/react-scroll": "^1.8.3",
         "@types/redux": "^3.6.0",
         "@types/redux-devtools-extension": "^2.13.2",
         "autoprefixer": "^10.4.0",
