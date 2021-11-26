@@ -2,54 +2,20 @@ import React, { useState, useEffect } from 'react'
 import fetchApi from '../../utils/fetchApi'
 import useSWR from 'swr'
 import moment from 'moment'
-import ConfirmAlert from '../formElement/ConfirmAlert'
+import ConfirmDialog from '../formElement/ConfirmDialog'
 import { IUser } from '../../redux/slices/authSlice'
 import axios from 'axios'
 import _id from '../../pages/product/[_id]'
 import classNames from 'classnames'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { closeConfirmDialog, openConfirmDialog, IAction } from '../../redux/slices/confirmDialogSlice'
 
-export interface IConfirm {
-    show: boolean
-    action?: IAction
-    name: string
-    _id: string
-}
-
-export enum IAction {
-    no, // do nothing
-    delete = 'DELETE',
-    ban = 'BAN',
-    unban = 'UNBAN',
-}
 
 const User = () => {
     const { data, error } = useSWR('/users', fetchApi)
     const [users, setUsers] = useState<IUser[]>()
-    const [confirm, setConfirm] = useState<IConfirm>({
-        show: false,
-        action: IAction.no,
-        name: '',
-        _id: ''
-    })
-
-    // CONFIRM DIALOG
-    const openConfirm = (_id: string, name: string, action: IAction) => {
-        setConfirm({
-            show: true,
-            action,
-            name,
-            _id
-        })
-    }
-
-    const closeConfirm = () => {
-        setConfirm({
-            show: false,
-            action: IAction.no,
-            name: '',
-            _id: ''
-        })
-    }
+    const dispatch = useAppDispatch()
+    const confirm = useAppSelector(state => state.confirm)
 
     // DELETE USER
     const handleDeleteUser = async () => {
@@ -59,7 +25,7 @@ const User = () => {
                 if (data.status === 'success') {
                     const updatedUser = users.filter(user => user._id !== confirm._id)
                     setUsers(updatedUser)
-                    closeConfirm()
+                    dispatch(closeConfirmDialog())
                 }
             }
             return
@@ -78,7 +44,7 @@ const User = () => {
                 if (data.status === 'success') {
                     const updatedUser = users.find(user => user._id === confirm._id)
                     updatedUser.banned = data.data.banned
-                    closeConfirm()
+                    dispatch(closeConfirmDialog())
                 }
             }
             return
@@ -122,21 +88,20 @@ const User = () => {
                                 </div>
                             </div>
 
-                            <p className="col-span-1 text-center self-center">{user.role}</p>
-                            {/* <p className="col-span-1 text-center self-center">{user.banned.toString()}</p> */}
+                            <p className={classNames("col-span-1 text-center self-center", { 'font-bold': user.role === 'admin' })}>{user.role}</p>
                             <div className="col-span-2 text-center self-center ">
                                 <button className={classNames('font-semibold py-1 px-4 rounded-2xl shadow', { 'bg-green-100': !user.banned }, { 'bg-red-100': user.banned })} onClick={() => {
-                                    if (user.banned) openConfirm(user._id, user.name, IAction.unban)
-                                    if (!user.banned) openConfirm(user._id, user.name, IAction.ban)
+                                    if (user.banned) dispatch(openConfirmDialog({ action: IAction.unban, name: user.name, _id: user._id }))
+                                    if (!user.banned) dispatch(openConfirmDialog({ action: IAction.ban, name: user.name, _id: user._id }))
                                 }}>{user.banned === false ? 'Ban' : 'Unban'}</button>
                             </div>
                             <p className="col-span-2 text-center self-center">{moment(user.createdAt).format('HH:mm DD.MM.YYYY')}</p>
-                            <p className="col-span-2 text-center self-center font-semibold text-red-700 cursor-pointer" onClick={() => openConfirm(user._id, user.name, IAction.delete)}>Delete</p>
+                            <p className="col-span-2 text-center self-center font-semibold text-red-700 cursor-pointer" onClick={() => dispatch(openConfirmDialog({ action: IAction.delete, name: user.name, _id: user._id }))}>Delete</p>
                         </div>
                     ))}
                 </div>
             </div>
-            {confirm.show && <ConfirmAlert confirm={confirm} closeConfirm={closeConfirm} handleDeleteUser={handleDeleteUser} handleToggleBanUser={handleToggleBanUser} />}
+            {confirm.show && <ConfirmDialog confirm={confirm} closeConfirm={() => dispatch(closeConfirmDialog())} handleDelete={handleDeleteUser} handleToggleBanUser={handleToggleBanUser} />}
         </div>
     )
 }

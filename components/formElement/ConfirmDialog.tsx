@@ -1,14 +1,23 @@
+import { NextPage } from 'next'
 import React from 'react'
-import { IAction } from '../dashboardPage/User'
+import { IConfirm, IAction } from '../../redux/slices/confirmDialogSlice'
 
-const ConfirmAlert = ({ confirm, closeConfirm, handleDeleteUser, handleToggleBanUser }) => {
+
+interface IConfirmDialog {
+    confirm: IConfirm,
+    closeConfirm: () => void,
+    handleDelete: () => Promise<void>,
+    handleToggleBanUser?: () => Promise<void>
+}
+
+const ConfirmDialog: NextPage<IConfirmDialog> = ({ confirm, closeConfirm, handleDelete, handleToggleBanUser }) => {
 
     const handleYes = async () => {
         try {
             console.log('CONFIRM ACTION: ', confirm.action)
-            // DELETE USER
+            // DELETE USER / CATEGORY / VARIANT / SIZE / PRODUCT
             if (confirm.action === IAction.delete) {
-                await handleDeleteUser()
+                await handleDelete()
             }
             // TOOGLE BANNED USER
             if (confirm.action === IAction.ban || confirm.action === IAction.unban) {
@@ -38,4 +47,4 @@ const ConfirmAlert = ({ confirm, closeConfirm, handleDeleteUser, handleToggleBan
     )
 }
 
-export default ConfirmAlert
+export default ConfirmDialog
