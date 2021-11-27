@@ -42,9 +42,10 @@ export interface ICategory {
 }
 
 export interface IVariant {
-  _id: string
+  _id?: string
   name: string
   colorHex: string
+  global?: string
 }
 
 export interface ISize {
