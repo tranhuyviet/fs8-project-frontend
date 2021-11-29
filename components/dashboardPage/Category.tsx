@@ -9,7 +9,6 @@ import axios from 'axios'
 import Input from '../formElement/Input'
 import { useFormik } from 'formik'
 import classNames from 'classnames'
-import { Link } from 'react-scroll'
 
 const Category = () => {
     const { data, error } = useSWR('/categories', fetchApi)
@@ -99,7 +98,7 @@ const Category = () => {
 
     return (
         <div className="p-4" id="top">
-            <h1 className="dashboardTitle" id="top1">category</h1>
+            <h1 className="dashboardTitle" id="top1">dashboard category</h1>
             <form onSubmit={handleSubmit} className="flex flex-col mt-4  mx-auto p-4 border border-gray-500 shadow-lg" id="top2">
                 <div className="w-full">
                     <Input label="Category name" type="text" name="name" value={values.name} onChange={handleChange} error={errors?.name} className="py-2 w-full" />

@@ -86,7 +86,7 @@ const Variant = () => {
                 }
             }
         } catch (error) {
-            console.log('Delete category error: ', error)
+            console.log('Delete variant error: ', error)
         }
     }
 
@@ -99,7 +99,7 @@ const Variant = () => {
 
     return (
         <div className="p-4" id="top">
-            <h1 className="dashboardTitle" id="top1">variant</h1>
+            <h1 className="dashboardTitle" id="top1">dashboard variant</h1>
             <form onSubmit={handleSubmit} className="flex flex-col mt-4  mx-auto p-4 border border-gray-500 shadow-lg" id="top2">
                 <div className="w-full">
                     <Input label="Variant name" type="text" name="name" value={values.name} onChange={handleChange} error={errors?.name} className="py-2 w-full" />

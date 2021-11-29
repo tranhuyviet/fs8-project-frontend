@@ -21,7 +21,7 @@ export interface IData {
 }
 
 export interface IProduct {
-  _id: string
+  _id?: string
   name: string
   description: string
   price: number
@@ -33,6 +33,7 @@ export interface IProduct {
   user: IUser,
   createdAt: string
   updateAt: string
+  global?: string
 }
 
 export interface ICategory {
@@ -49,8 +50,9 @@ export interface IVariant {
 }
 
 export interface ISize {
-  _id: string
+  _id?: string
   name: string
+  global?: string
 }
 
 export interface IUser {

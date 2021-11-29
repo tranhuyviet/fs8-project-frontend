@@ -14,13 +14,6 @@ export interface IUser {
 const initialState = {
     user: <IUser>{},
     isLoggedIn: false,
-    // banned: false,
-    // email: '',
-    // image: '',
-    // name: '',
-    // role: '',
-    // token: '',
-    // _id: '',
 };
 
 const authSlice = createSlice({
@@ -32,7 +25,6 @@ const authSlice = createSlice({
             state.isLoggedIn = true;
         },
         logout: (state) => {
-            console.log('log out hahaha');
             state.user = null;
             state.isLoggedIn = false;
         },

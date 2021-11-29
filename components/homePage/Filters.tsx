@@ -56,7 +56,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                     </div>
                     {/* VARIANT SELECT BOX */}
                     <div>
-                        <select name="variants" id="variants" className="form" value={variant} onChange={filterVariantHandler}>
+                        <select name="variants" id="variants" className="form capitalize" value={variant} onChange={filterVariantHandler}>
                             <option value="">All Colors</option>
                             {variants && variants.map(variant => (
                                 <option value={variant._id} key={variant._id}>{variant.name}</option>
@@ -66,7 +66,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                     </div>
                     {/* SIZE SELECT BOX */}
                     <div>
-                        <select name="sizes" id="sizes" className="form" value={size} onChange={filterSizeHandler}>
+                        <select name="sizes" id="sizes" className="form capitalize" value={size} onChange={filterSizeHandler}>
                             <option value="">All Sizes</option>
                             {sizes && sizes.map(size => (
                                 <option value={size._id} key={size._id} >{size.name}</option>
