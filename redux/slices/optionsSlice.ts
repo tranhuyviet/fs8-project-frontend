@@ -39,14 +39,40 @@ const optionsSlice = createSlice({
         setCategories: (state, action) => {
             state.categories = action.payload;
         },
+        updateCategory: (state, action) => {
+            const category = state.categories.find(
+                (category) => category._id === action.payload._id
+            );
+            category.name = action.payload.name;
+        },
         setVariants: (state, action) => {
             state.variants = action.payload;
+        },
+        updateVariant: (state, action) => {
+            const variant = state.variants.find(
+                (variant) => variant._id === action.payload._id
+            );
+            variant.name = action.payload.name;
+            variant.colorHex = action.payload.colorHex;
         },
         setSizes: (state, action) => {
             state.sizes = action.payload;
         },
+        updateSize: (state, action) => {
+            const size = state.sizes.find(
+                (size) => size._id === action.payload._id
+            );
+            size.name = action.payload.name;
+        },
     },
 });
 
-export const { setCategories, setVariants, setSizes } = optionsSlice.actions;
+export const {
+    setCategories,
+    updateCategory,
+    setVariants,
+    updateVariant,
+    setSizes,
+    updateSize,
+} = optionsSlice.actions;
 export default optionsSlice.reducer;

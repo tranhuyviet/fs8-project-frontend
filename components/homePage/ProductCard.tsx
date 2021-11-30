@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import Image from 'next/image'
 import React from 'react'
-import { IProduct } from '../../pages'
+import { IProduct } from '../../redux/slices/productSlice'
 import { useRouter } from 'next/router'
 
 const imageNotAvailable = 'https://res.cloudinary.com/dzaxf70c4/image/upload/v1636620809/img-not-available_exqzad.png'

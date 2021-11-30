@@ -9,11 +9,11 @@ import axios from 'axios'
 import Input from '../formElement/Input'
 import { useFormik } from 'formik'
 import classNames from 'classnames'
-import { Link } from 'react-scroll'
+import { setSizes, updateSize } from '../../redux/slices/optionsSlice'
 
 const Size = () => {
     const { data, error } = useSWR('/sizes', fetchApi)
-    const [sizes, setSizes] = useState<ISize[]>()
+    const sizes = useAppSelector(state => state.options.sizes)
     const dispatch = useAppDispatch()
     const confirm = useAppSelector(state => state.confirm)
     const [edit, setEdit] = useState({
@@ -43,13 +43,11 @@ const Size = () => {
         try {
             const { data } = await axios.post('/sizes', values)
             if (data.status === 'success') {
-                console.log(data.data)
-
-                setSizes([...sizes, data?.data])
+                dispatch(setSizes([...sizes, data?.data]))
                 setValues(initialValues)
             }
         } catch (error) {
-            setErrors(error.response.data.errors)
+            setErrors(error?.response?.data?.errors)
         }
     }
 
@@ -58,10 +56,7 @@ const Size = () => {
         try {
             const { data } = await axios.patch(`/sizes/${edit._id}`, values)
             if (data.status === 'success') {
-                console.log(data.data)
-                const size = sizes.find(size => size._id === edit._id)
-                size.name = data.data.name
-                setSizes([...sizes])
+                dispatch(updateSize(data.data))
                 setValues(initialValues)
                 setEdit({
                     isEdit: false,
@@ -69,7 +64,7 @@ const Size = () => {
                 })
             }
         } catch (error) {
-            setErrors(error.response.data.errors)
+            setErrors(error?.response?.data?.errors)
         }
     }
 
@@ -80,7 +75,7 @@ const Size = () => {
                 const { data } = await axios.delete(`/sizes/${confirm._id}`)
                 if (data.status === 'success') {
                     const updatedSizes = sizes.filter(size => size._id !== confirm._id)
-                    setSizes(updatedSizes)
+                    dispatch(setSizes(updatedSizes))
                     dispatch(closeConfirmDialog())
                 }
             }

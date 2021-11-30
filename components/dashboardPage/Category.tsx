@@ -9,15 +9,16 @@ import axios from 'axios'
 import Input from '../formElement/Input'
 import { useFormik } from 'formik'
 import classNames from 'classnames'
+import { setCategories, updateCategory } from '../../redux/slices/optionsSlice'
 
 const Category = () => {
     const { data, error } = useSWR('/categories', fetchApi)
-    const [categories, setCategories] = useState<ICategory[]>()
+    // const [categories, setCategories] = useState<ICategory[]>()
+    const categories = useAppSelector(state => state.options.categories)
     const dispatch = useAppDispatch()
     const confirm = useAppSelector(state => state.confirm)
     const [edit, setEdit] = useState({
         isEdit: false,
-
         _id: ''
     })
 
@@ -43,13 +44,12 @@ const Category = () => {
         try {
             const { data } = await axios.post('/categories', values)
             if (data.status === 'success') {
-                console.log(data.data)
-
-                setCategories([...categories, data?.data])
+                dispatch(setCategories([...categories, data?.data]))
                 setValues(initialValues)
             }
         } catch (error) {
-            setErrors(error.response.data.errors)
+            console.log('ERROR', error.response)
+            setErrors(error?.response?.data?.errors)
         }
     }
 
@@ -57,20 +57,23 @@ const Category = () => {
     const handleEditCategory = async () => {
         try {
             const { data } = await axios.patch(`/categories/${edit._id}`, values)
+            console.log('DATAAA', data)
             if (data.status === 'success') {
-                console.log(data.data)
-                const category = categories.find(category => category._id === edit._id)
-                category.name = data.data.name
-                setCategories([...categories])
-                setValues(initialValues)
+                // console.log('return data', data.data)
+                // const category = categories.find(category => category._id === edit._id)
+                // category.name = data.data.name
+                // console.log('categories', categories)
+                // dispatch(setCategories([...categories]))
+                dispatch(updateCategory(data.data))
                 setEdit({
                     isEdit: false,
-
                     _id: ''
                 })
+                setValues(initialValues)
             }
         } catch (error) {
-            setErrors(error.response.data.errors)
+            console.log('heoehehe', error)
+            setErrors(error?.response?.data?.errors)
         }
     }
 
@@ -81,7 +84,7 @@ const Category = () => {
                 const { data } = await axios.delete(`/categories/${confirm._id}`)
                 if (data.status === 'success') {
                     const updatedCategories = categories.filter(category => category._id !== confirm._id)
-                    setCategories(updatedCategories)
+                    dispatch(setCategories(updatedCategories))
                     dispatch(closeConfirmDialog())
                 }
             }
@@ -95,6 +98,8 @@ const Category = () => {
     }, [data])
 
     if (error) return <p>Error: {error}</p>
+
+
 
     return (
         <div className="p-4" id="top">

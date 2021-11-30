@@ -9,10 +9,12 @@ import axios from 'axios'
 import Input from '../formElement/Input'
 import { useFormik } from 'formik'
 import classNames from 'classnames'
+import { setVariants, updateVariant } from '../../redux/slices/optionsSlice'
 
 const Variant = () => {
     const { data, error } = useSWR('/variants', fetchApi)
-    const [variants, setVariants] = useState<IVariant[]>()
+    // const [variants, setVariants] = useState<IVariant[]>()
+    const variants = useAppSelector(state => state.options.variants)
     const dispatch = useAppDispatch()
     const confirm = useAppSelector(state => state.confirm)
     const [edit, setEdit] = useState({
@@ -44,12 +46,11 @@ const Variant = () => {
             const { data } = await axios.post('/variants', values)
             if (data.status === 'success') {
                 console.log(data.data)
-
-                setVariants([...variants, data?.data])
+                dispatch(setVariants([...variants, data?.data]))
                 setValues(initialValues)
             }
         } catch (error) {
-            setErrors(error.response.data.errors)
+            setErrors(error?.response?.data?.errors)
         }
     }
 
@@ -58,11 +59,7 @@ const Variant = () => {
         try {
             const { data } = await axios.patch(`/variants/${edit._id}`, values)
             if (data.status === 'success') {
-                console.log(data.data)
-                const variant = variants.find(variant => variant._id === edit._id)
-                variant.name = data.data.name
-                variant.colorHex = data.data.colorHex
-                setVariants([...variants])
+                dispatch(updateVariant(data.data))
                 setValues(initialValues)
                 setEdit({
                     isEdit: false,
@@ -70,7 +67,7 @@ const Variant = () => {
                 })
             }
         } catch (error) {
-            setErrors(error.response.data.errors)
+            setErrors(error?.response?.data?.errors)
         }
     }
 
@@ -81,7 +78,7 @@ const Variant = () => {
                 const { data } = await axios.delete(`/variants/${confirm._id}`)
                 if (data.status === 'success') {
                     const updatedVariants = variants.filter(variant => variant._id !== confirm._id)
-                    setVariants(updatedVariants)
+                    dispatch(setVariants(updatedVariants))
                     dispatch(closeConfirmDialog())
                 }
             }
@@ -135,8 +132,8 @@ const Variant = () => {
                             <div className="col-span-8 flex items-center">
                                 <p>{variant.name}</p>
                             </div>
-                            <div className={`col-span-1 text-center self-center w-6 h-6 mx-auto`} style={{ backgroundColor: variant.colorHex }} />
-                            <p className="col-span-1 text-center self-center">{variant.colorHex}</p>
+                            <div className={`col-span-1 text-center self-center w-6 h-6 mx-auto border`} style={{ backgroundColor: variant.colorHex }} />
+                            <p className="col-span-1 text-center self-center uppercase">{variant.colorHex}</p>
                             <p className={classNames("col-span-1 text-center self-center font-semibold  cursor-pointer ", { 'text-gray-400': edit.isEdit }, { 'text-indigo-700': !edit.isEdit })} onClick={() => {
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                                 setEdit({ isEdit: true, _id: variant._id })

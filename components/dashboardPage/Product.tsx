@@ -8,6 +8,7 @@ import axios from 'axios'
 import Input from '../formElement/Input'
 import { useFormik } from 'formik'
 import classNames from 'classnames'
+import { setProducts, addProduct } from '../../redux/slices/productSlice'
 
 
 interface IProduct {
@@ -28,8 +29,9 @@ interface IProduct {
 
 const Product = () => {
     const dispatch = useAppDispatch()
-    const { data, error } = useSWR('/products', fetchApi)
-    const [products, setProducts] = useState<IProduct[]>()
+    const products = useAppSelector(state => state.products.products)
+    // const { data, error } = useSWR('/products', fetchApi)
+    // const [products, setProducts] = useState<IProduct[]>()
 
     const [imageUrl, setImageUrl] = useState('')
 
@@ -63,46 +65,45 @@ const Product = () => {
         console.log('add new submit: ', values)
         // edit category
         if (edit.isEdit && edit._id) {
-            handleEditCategory()
+            handleEditProduct()
         } else {
-            // add new category
+            // add new product
             handleAddNewProduct()
         }
     }
 
-    // ADD NEW CATEGORY
+    // ADD NEW PRODUCT
     const handleAddNewProduct = async () => {
         try {
             const { data } = await axios.post('/products', values)
             if (data.status === 'success') {
+                dispatch(addProduct(data.data))
                 setValues(initialValues)
-
             }
         } catch (error) {
             setErrors(error.response.data.errors)
         }
     }
 
-    // // EDIT CATEGORY
-    // const handleEditCategory = async () => {
-    //     try {
-    //         const { data } = await axios.patch(`/categories/${edit._id}`, values)
-    //         if (data.status === 'success') {
-    //             console.log(data.data)
-    //             const category = categories.find(category => category._id === edit._id)
-    //             category.name = data.data.name
-    //             setCategories([...categories])
-    //             setValues(initialValues)
-    //             setEdit({
-    //                 isEdit: false,
-
-    //                 _id: ''
-    //             })
-    //         }
-    //     } catch (error) {
-    //         setErrors(error.response.data.errors)
-    //     }
-    // }
+    // EDIT PRODUCT
+    const handleEditProduct = async () => {
+        try {
+            const { data } = await axios.patch(`/products/${edit._id}`, values)
+            if (data.status === 'success') {
+                console.log(data.data)
+                const product = products.find(product => product._id === edit._id)
+                product.name = data.data.name
+                setProducts([...products])
+                setValues(initialValues)
+                setEdit({
+                    isEdit: false,
+                    _id: ''
+                })
+            }
+        } catch (error) {
+            setErrors(error.response.data.errors)
+        }
+    }
 
     // // DELETE CATETORY
     // const handleDeleteCategory = async () => {
@@ -134,13 +135,13 @@ const Product = () => {
         setValues({ ...values, images })
     }
 
-    useEffect(() => {
-        if (data) setProducts(data.data)
-    }, [data])
+    // useEffect(() => {
+    //     if (data) setProducts(data.data)
+    // }, [data])
 
     console.log('PRODUCT VALUES:', values)
 
-    if (error) return <p>Error: {error}</p>
+    // if (error) return <p>Error: {error}</p>
 
     return (
         <div className="p-4" id="top">

@@ -1,31 +1,25 @@
 import { NextPage } from 'next';
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { IProduct } from '../../pages/index'
 import ProductCard from './ProductCard';
 import useSWR from 'swr'
 import axios from 'axios'
 import ReactLoading from 'react-loading'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
+import { setProducts } from '../../redux/slices/productSlice'
+import fetchApi from '../../utils/fetchApi'
 
-
-const fetchProducts = async (url: string) => {
-    try {
-        // get all product
-        const resProducts = await axios.get(url)
-        const products: IProduct[] = resProducts.data.data
-        if (!products) throw new Error('Can not get Products')
-
-        return products
-    } catch (error) {
-        console.log('Fetch product error: ', error)
-    }
-}
 
 const ProductList = () => {
+    const dispatch = useAppDispatch()
+    const products = useAppSelector(state => state.products.products)
     const apiEnpoint = useAppSelector(state => state.apiEndpoint.filterProductEndpoint)
     // console.log('URL: ', apiEnpoint)
-    const { data, error } = useSWR(apiEnpoint, fetchProducts)
-    const products = data
+    const { data, error } = useSWR(apiEnpoint, fetchApi)
+
+    useEffect(() => {
+        if (data && data.data) dispatch(setProducts(data.data))
+    }, [data, dispatch])
 
     if (error) return <p>Loading products error...</p>
     if (!data) return (<div className="w-full flex justify-center items-center mt-2 min-h-[calc(100vh-64px-64px-272px-90px-32px-25px)]">
@@ -34,6 +28,9 @@ const ProductList = () => {
             <ReactLoading type="bars" color="#6B7280" />
         </div>
     </div>)
+
+    // const products = data.data
+    console.log('PRODUCTS: ', products)
     return (
         <section className="mt-2 min-h-[calc(100vh-64px-64px-272px-90px-32px-25px)]">
             {/* list of products */}
