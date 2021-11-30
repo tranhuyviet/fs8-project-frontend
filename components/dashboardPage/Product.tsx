@@ -8,7 +8,8 @@ import axios from 'axios'
 import Input from '../formElement/Input'
 import { useFormik } from 'formik'
 import classNames from 'classnames'
-import { setProducts, addProduct } from '../../redux/slices/productSlice'
+import { setProducts, addProduct, updateProduct } from '../../redux/slices/productSlice'
+
 
 
 interface IProduct {
@@ -91,9 +92,10 @@ const Product = () => {
             const { data } = await axios.patch(`/products/${edit._id}`, values)
             if (data.status === 'success') {
                 console.log(data.data)
-                const product = products.find(product => product._id === edit._id)
-                product.name = data.data.name
-                setProducts([...products])
+                // const product = products.find(product => product._id === edit._id)
+                // product.name = data.data.name
+                // setProducts([...products])
+                dispatch(updateProduct(data.data))
                 setValues(initialValues)
                 setEdit({
                     isEdit: false,
@@ -103,6 +105,17 @@ const Product = () => {
         } catch (error) {
             setErrors(error.response.data.errors)
         }
+    }
+
+    // HANDLE EDIT BUTTON CLICK
+    const handleEditButtonClick = (product) => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setEdit({ isEdit: true, _id: product._id })
+        const category = product.category._id
+        const variants = product.variants.map(variant => variant._id)
+        const sizes = product.sizes.map(size => size._id)
+
+        setValues({ ...product, category, variants, sizes, user: user._id })
     }
 
     // // DELETE CATETORY
@@ -169,7 +182,7 @@ const Product = () => {
                     </div>
                     <div className="flex items-end">
                         <div className="flex-auto">
-                            <Input label="Image Url" type="text" name="image" value={imageUrl} onChange={(e) => setImageUrl(e.currentTarget.value)} error={errors?.images} className="py-2 w-full" />
+                            <Input label="Image Url" type="text" name="image" value={imageUrl} onChange={(e) => setImageUrl(e.currentTarget.value)} className="py-2 w-full" />
                         </div>
                         <button className="btn h-[43px] ml-4" type="button" onClick={handleAddImage}>Add Image</button>
                     </div>
@@ -194,7 +207,7 @@ const Product = () => {
                                     <div key={variant._id} >
                                         <div className="flex items-center mr-4">
                                             <div className={`h-6 w-6 mr-1`} style={{ backgroundColor: variant.colorHex }} />
-                                            <input type="checkbox" value={variant._id} id={variant.name} onChange={e => {
+                                            <input type="checkbox" value={variant._id} id={variant.name} checked={values.variants.includes(variant._id)} onChange={e => {
                                                 if (e.target.checked) {
                                                     setValues({ ...values, variants: [...values.variants, e.target.value] })
                                                 } else {
@@ -215,7 +228,7 @@ const Product = () => {
                             <div className="flex mt-1">
                                 {sizes && sizes.map(size => ((
                                     <div key={size._id} className="mr-4 flex items-center">
-                                        <input type="checkbox" value={size._id} id={size.name} onChange={(e) => {
+                                        <input type="checkbox" value={size._id} id={size.name} checked={values.sizes.includes(size._id)} onChange={(e) => {
                                             if (e.target.checked) {
                                                 setValues({ ...values, sizes: [...values.sizes, e.target.value] })
                                             } else {
@@ -260,11 +273,7 @@ const Product = () => {
                             <div className="col-span-10 flex items-center">
                                 <p>{product.name}</p>
                             </div>
-                            <p className={classNames("col-span-1 text-center self-center font-semibold  cursor-pointer ", { 'text-gray-400': edit.isEdit }, { 'text-indigo-700': !edit.isEdit })} onClick={() => {
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                                setEdit({ isEdit: true, _id: product._id })
-                                setValues({ name: product.name })
-                            }}>Edit</p>
+                            <p className={classNames("col-span-1 text-center self-center font-semibold  cursor-pointer ", { 'text-gray-400': edit.isEdit }, { 'text-indigo-700': !edit.isEdit })} onClick={() => handleEditButtonClick(product)}>Edit</p>
                             <p className={classNames("col-span-1 text-center self-center font-semibold  cursor-pointer ", { 'text-gray-400': edit.isEdit }, { 'text-red-700': !edit.isEdit })} onClick={() => {
                                 dispatch(openConfirmDialog({ action: IAction.delete, name: product.name, _id: product._id }))
                                 window.scrollTo({ top: 0 });
