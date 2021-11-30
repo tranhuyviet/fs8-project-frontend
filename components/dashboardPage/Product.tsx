@@ -64,7 +64,7 @@ const Product = () => {
 
     async function onSubmit(values) {
         console.log('add new submit: ', values)
-        // edit category
+        // edit product
         if (edit.isEdit && edit._id) {
             handleEditProduct()
         } else {
@@ -118,21 +118,21 @@ const Product = () => {
         setValues({ ...product, category, variants, sizes, user: user._id })
     }
 
-    // // DELETE CATETORY
-    // const handleDeleteCategory = async () => {
-    //     try {
-    //         if (confirm.action === IAction.delete && confirm._id) {
-    //             const { data } = await axios.delete(`/categories/${confirm._id}`)
-    //             if (data.status === 'success') {
-    //                 const updatedCategories = categories.filter(category => category._id !== confirm._id)
-    //                 setCategories(updatedCategories)
-    //                 dispatch(closeConfirmDialog())
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.log('Delete category error: ', error)
-    //     }
-    // }
+    // DELETE PRODUCT
+    const handleDeleteProduct = async () => {
+        try {
+            if (confirm.action === IAction.delete && confirm._id) {
+                const { data } = await axios.delete(`/products/${confirm._id}`)
+                if (data.status === 'success') {
+                    const updatedProducts = products.filter(product => product._id !== confirm._id)
+                    dispatch(setProducts(updatedProducts))
+                    dispatch(closeConfirmDialog())
+                }
+            }
+        } catch (error) {
+            console.log('Delete product error: ', error)
+        }
+    }
 
     // ADD IMAGE
     const handleAddImage = () => {
@@ -284,7 +284,7 @@ const Product = () => {
 
                 </div>
             </div>
-            {confirm.show && <ConfirmDialog confirm={confirm} closeConfirm={() => dispatch(closeConfirmDialog())} handleDelete={handleDeleteCategory} />}
+            {confirm.show && <ConfirmDialog confirm={confirm} closeConfirm={() => dispatch(closeConfirmDialog())} handleDelete={handleDeleteProduct} />}
 
         </div >
     )
