@@ -36,7 +36,7 @@ const ProductList = ({ filter, setFilter }) => {
         <section className="min-h-[calc(100vh-64px-64px-272px-90px-32px-25px)]">
             <p className="text-gray-500 mt-4 text-base font-poppins">{data.total} products</p>
             {/* list of products */}
-            <div className="grid grid-cols-4 pt-6 pb-8 gap-x-6 gap-y-6">
+            <div className="grid grid-cols-3 pt-6 pb-8 gap-x-6 gap-y-6">
                 {products.map(product => (
                     <ProductCard key={product._id} product={product} />
                 ))}
