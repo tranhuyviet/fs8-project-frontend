@@ -9,7 +9,9 @@ const imageNotAvailable = 'https://res.cloudinary.com/dzaxf70c4/image/upload/v16
 const ProductCard: NextPage<{ product: IProduct }> = ({ product }) => {
     const router = useRouter()
     return (
-        <div className="hover:cursor-pointer" onClick={() => router.push('/product/' + product._id)}>
+        <div className="hover:cursor-pointer" onClick={() => {
+            router.push('/product/' + product._id)
+        }}>
             <Image src={product.images[0] || imageNotAvailable} width="240" height="300" alt={product.name} className="object-top object-cover hover:transform transition duration-700 hover:scale-110 " />
             <div className="">
 

@@ -46,7 +46,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                     </div>
                     {/* CATEGORY SELECT BOX */}
                     <div>
-                        <select name="categories" id="categories" className="form capitalize" value={category} onChange={filterCategoryHandler} >
+                        <select name="categories" id="categories" className="form uppercase" value={category} onChange={filterCategoryHandler} >
                             <option value="">All Categories</option>
                             {categories && categories.map(category => (
                                 <option value={category._id} key={category._id}>{category.name}</option>
@@ -56,7 +56,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                     </div>
                     {/* VARIANT SELECT BOX */}
                     <div>
-                        <select name="variants" id="variants" className="form capitalize" value={variant} onChange={filterVariantHandler}>
+                        <select name="variants" id="variants" className="form uppercase" value={variant} onChange={filterVariantHandler}>
                             <option value="">All Colors</option>
                             {variants && variants.map(variant => (
                                 <option value={variant._id} key={variant._id}>{variant.name}</option>
@@ -66,10 +66,10 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                     </div>
                     {/* SIZE SELECT BOX */}
                     <div>
-                        <select name="sizes" id="sizes" className="form capitalize" value={size} onChange={filterSizeHandler}>
+                        <select name="sizes" id="sizes" className="form uppercase" value={size} onChange={filterSizeHandler}>
                             <option value="">All Sizes</option>
                             {sizes && sizes.map(size => (
-                                <option value={size._id} key={size._id} >{size.name}</option>
+                                <option value={size._id} key={size._id}>{size.name}</option>
                             ))}
 
                         </select>

@@ -18,6 +18,7 @@ export interface IProduct {
 
 const initialState = {
     products: <IProduct[]>[],
+    selectedProduct: <IProduct>{},
 };
 
 const productSlice = createSlice({
@@ -44,8 +45,14 @@ const productSlice = createSlice({
             product.sizes = action.payload.sizes;
             product.user = action.payload.user;
         },
+        setSelectedProduct: (state, action) => {
+            state.selectedProduct = state.products.find(
+                (product) => product._id === action.payload
+            );
+        },
     },
 });
 
-export const { setProducts, addProduct, updateProduct } = productSlice.actions;
+export const { setProducts, addProduct, updateProduct, setSelectedProduct } =
+    productSlice.actions;
 export default productSlice.reducer;
