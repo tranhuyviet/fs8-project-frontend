@@ -9,14 +9,18 @@ const imageNotAvailable = 'https://res.cloudinary.com/dzaxf70c4/image/upload/v16
 const ProductCard: NextPage<{ product: IProduct }> = ({ product }) => {
     const router = useRouter()
     return (
-        <div className="hover:cursor-pointer" onClick={() => {
+        <div className="hover:cursor-pointer border hover:shadow-lg transition duration-500" onClick={() => {
             router.push('/product/' + product._id)
         }}>
             <Image src={product.images[0] || imageNotAvailable} width="240" height="300" alt={product.name} className="object-top object-cover hover:transform transition duration-700 hover:scale-110 " />
-            <div className="">
-
-                <h2 className="truncate text-gray-500 font-poppins text-sm mt-2 mb-1">{product.name}</h2>
-                <p className="font-semibold text-sm font-poppins">{product.price}€</p>
+            <div className="pb-4">
+                <h2 className="truncate text-gray-500 font-poppins text-xs mt-2 mb-1 px-4 text-center">{product.name}</h2>
+                <p className="font-semibold text-base font-poppins text-center mt-2">{product.price}€</p>
+                <div className="flex justify-center mt-2 space-x-1">
+                    {product.variants.map(variant => (
+                        <div key={variant._id} className="h-[14px] w-[14px] border rounded" style={{ backgroundColor: variant.colorHex }} />
+                    ))}
+                </div>
             </div>
         </div>
     )

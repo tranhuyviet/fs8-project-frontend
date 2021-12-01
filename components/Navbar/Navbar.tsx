@@ -29,7 +29,7 @@ const Navbar = () => {
                 <Link href="/">
                     <a>
                         <h1 className='text-xl font-bold tracking-widest text-gray-700 uppercase'>
-                            E-COMMERCE
+                            fashion
                         </h1>
                     </a>
                 </Link>

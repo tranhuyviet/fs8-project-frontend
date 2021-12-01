@@ -13,6 +13,7 @@ import { login } from '../redux/slices/authSlice'
 import jwtDecode from 'jwt-decode'
 import mongoose from 'mongoose'
 import { IUser as IUserAuth } from '../redux/slices/authSlice'
+import Pagination from '../components/homePage/Pagination'
 
 export interface IData {
   status: string
@@ -83,7 +84,7 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
 
   const [filter, setFilter] = useState<IProductFilter>({
     page: 1,
-    limit: 10
+    limit: 12
   })
 
   useEffect(() => {
@@ -110,7 +111,7 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
       <main className="container">
         <Hero />
         <Filters categories={categories} variants={variants} sizes={sizes} filter={filter} setFilter={setFilter} />
-        <ProductList />
+        <ProductList filter={filter} setFilter={setFilter} />
         {/* {JSON.stringify(data, null, 2)} */}
       </main>
     </div>

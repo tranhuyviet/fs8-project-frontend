@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IVariant } from './optionsSlice';
 
 export interface IProduct {
     _id?: string;
@@ -8,7 +9,7 @@ export interface IProduct {
     discount: number;
     images: string[];
     category: string;
-    variants: string[];
+    variants: string[] | IVariant[];
     sizes: string[];
     user: string;
     createdAt?: string;
