@@ -31,20 +31,10 @@ const LoginPage = () => {
     const { values, handleChange, handleSubmit, errors, setErrors } = useFormik<ILogin>({ initialValues, onSubmit })
 
     async function onSubmit(values) {
-
-        console.log('login... ', values)
         try {
-            const axiosConfig = {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-
-            };
-            const { data } = await axios.post('/users/login', values, axiosConfig)
+            const { data } = await axios.post('/users/login', values)
             const user = data.data
-            console.log('user:', user)
             dispatch(login(user))
-
             router.push('/')
         } catch (error) {
             setErrors(error.response.data.errors)
