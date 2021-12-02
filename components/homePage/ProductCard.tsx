@@ -12,7 +12,7 @@ const ProductCard: NextPage<{ product: IProduct }> = ({ product }) => {
         <div className="text-center hover:cursor-pointer border hover:shadow-lg transition duration-500 " onClick={() => {
             router.push('/product/' + product._id)
         }}>
-            <Image src={product.images[0] || imageNotAvailable} width="260" height="300" alt={product.name} className="object-top object-cover hover:transform transition duration-700 hover:scale-110 " />
+            <img src={product.images[0] || imageNotAvailable} width="260" height="300" alt={product.name} className="object-top object-cover hover:transform transition duration-700 hover:scale-110 " />
             <div className="pb-4">
                 <h2 className="truncate text-gray-500 font-poppins text-sm mt-2 mb-1 px-8 text-center">{product.name}</h2>
                 <p className="font-semibold text-lg font-poppins text-center mt-2">{product.price}€</p>

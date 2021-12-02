@@ -2,18 +2,16 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Hero from '../components/homePage/Hero'
 import ProductList from '../components/homePage/ProductList'
-import { GetStaticProps, GetServerSideProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import axios from 'axios'
 import Filters from '../components/homePage/Filters'
 
-import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { useAppDispatch } from '../redux/hooks'
 import { setFilterProductEndpoint } from '../redux/slices/apiEnpointSlice'
 import { login } from '../redux/slices/authSlice'
 
 import jwtDecode from 'jwt-decode'
-import mongoose from 'mongoose'
 import { IUser as IUserAuth } from '../redux/slices/authSlice'
-import Pagination from '../components/homePage/Pagination'
 
 export interface IData {
   status: string
@@ -79,12 +77,10 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
   if (user) {
     dispatch(login(user))
   }
-  // set products endpoint
-  // dispatch(setProductsEndpoint(rootUrl + "/products"))
 
   const [filter, setFilter] = useState<IProductFilter>({
     page: 1,
-    limit: 12
+    limit: 9
   })
 
   useEffect(() => {
@@ -98,7 +94,7 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
     dispatch(setFilterProductEndpoint(rootUrl + newUrl))
   }, [filter, rootUrl, dispatch])
 
-  console.log('INDEX RENDER')
+  // console.log('INDEX RENDER')
 
   return (
     <div >
@@ -112,7 +108,6 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
         <Hero />
         <Filters categories={categories} variants={variants} sizes={sizes} filter={filter} setFilter={setFilter} />
         <ProductList filter={filter} setFilter={setFilter} />
-        {/* {JSON.stringify(data, null, 2)} */}
       </main>
     </div>
   )
