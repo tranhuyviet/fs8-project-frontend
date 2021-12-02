@@ -2,8 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 
 const Pagination = ({ filter, setFilter, total }) => {
-    console.log(filter)
-    // const page = filter.page
     const limit = filter.limit
     const numberOfPages = Math.ceil(total / limit)
 
@@ -31,7 +29,7 @@ const Pagination = ({ filter, setFilter, total }) => {
 
     // PAGE SELETED
     const handlePageSelected = (page) => {
-        console.log('page:', page)
+
         setFilter({ ...filter, page })
     }
 

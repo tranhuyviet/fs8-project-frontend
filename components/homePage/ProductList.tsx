@@ -31,7 +31,7 @@ const ProductList = ({ filter, setFilter }) => {
     </div>)
 
     // const products = data.data
-    console.log('PRODUCTS: ', data)
+    // console.log('PRODUCTS: ', data)
     return (
         <section className="min-h-[calc(100vh-64px-64px-272px-90px-32px-25px)]">
             <p className="text-gray-500 mt-4 text-base font-poppins">{data.total} products</p>

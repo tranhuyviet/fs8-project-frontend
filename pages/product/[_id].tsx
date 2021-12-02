@@ -5,15 +5,20 @@ import fetchApi from '../../utils/fetchApi'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import ReactLoading from 'react-loading'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 import { IProduct } from '../../redux/slices/productSlice'
 import ProductCard from '../../components/homePage/ProductCard'
+import { useFormik } from 'formik'
+import { ICartItem, addToCart } from '../../redux/slices/cartSlice'
+import axios from 'axios'
+
 
 const imageNotAvailable: string = 'https://res.cloudinary.com/dzaxf70c4/image/upload/v1636620809/img-not-available_exqzad.png'
 
 //const ProductDetailPage: NextPage<{ product: IProduct }> = ({ product }) => {
 const ProductDetailPage = () => {
     const router = useRouter()
+    const dispatch = useAppDispatch()
     const _id = router.asPath.split('product/')[1]
     const { data: productData, error } = useSWR(`/products/${_id}`, fetchApi)
 
@@ -23,11 +28,58 @@ const ProductDetailPage = () => {
 
     const product = productData?.data.product
     const productsSuggess = productData?.data.productsSuggess
-    console.log(productsSuggess)
+
+    const initialValues: ICartItem = {
+        _id: '',
+        name: '',
+        image: '',
+        price: 0,
+        discount: 0,
+        quantity: 1,
+        variant: '',
+        size: '',
+    }
+
+    const { values, setValues, handleChange, handleSubmit, errors, setErrors } = useFormik<ICartItem>({ initialValues, onSubmit })
+
+    async function onSubmit(values) {
+        console.log('addToCart submit: ', values)
+        if (values.size === '') {
+            setErrors({ size: 'Please select a size' })
+            return
+        }
+        try {
+            dispatch(addToCart(values))
+            // const { data } = await axios.post('/carts', cartItem)
+            // console.log(data)
+            // if (data.status === 'success') {
+            //     dispatch(addToCart(data.data))
+            // }
+        } catch (error) {
+            console.log('ERROR: ', error?.response.data.message)
+            // // setErrors(error?.response?.data?.errors)
+            // if (error?.response?.data?.statusCode === 401 && error?.response?.data?.message === 'You are not logged in! Please log in to get access.') {
+            //     router.push('/login')
+            // }
+        }
+
+    }
+
+
     useEffect(() => {
         if (product) {
+            const initValues = {
+                _id: product._id,
+                name: product.name,
+                image: product.images[0],
+                price: product.price,
+                discount: product.discount,
+                quantity: 1,
+                variant: product.variants[0].name,
+            }
             setSelectImg(product.images[0])
             setSelectColor(product.variants[0].name)
+            setValues({ ...values, ...initValues })
         }
     }, [product])
 
@@ -62,31 +114,41 @@ const ProductDetailPage = () => {
 
                 {/* right side: information of product: name, description, price, colors, sizes, add to cart,... */}
                 <div className="col-span-6 pl-4">
-                    <h1 className="font-poppins text-2xl font-bold tracking-wide">{product.name}</h1>
-                    <p className="text-xl mt-2 font-semibold">{product.price}€</p>
-                    <p className="text-sm text-gray-500 mt-2">{product.description}</p>
-                    <p className="text-sm mt-4 ">Color: <span className="font-bold">{selectColor}</span></p>
-                    <div className="flex space-x-3 mt-2 ml-1">
-                        {product.variants.map(variant => (
-                            <div key={variant._id} style={{ width: '20px', height: '20px', backgroundColor: variant.colorHex, cursor: 'pointer' }} className={`${variant.name === selectColor ? 'ring-1 ring-offset-2 ring-gray-700' : ''}`} onClick={() => setSelectColor(variant.name)} />
-                        ))}
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <h1 className="font-poppins text-2xl font-bold tracking-wide">{product.name}</h1>
+                        <p className="text-xl mt-2 font-semibold">{product.price}€</p>
+                        <p className="text-sm text-gray-500 mt-2">{product.description}</p>
+                        <p className="text-sm mt-4 ">Color: <span className="font-bold">{values.variant}</span></p>
 
-                    <div className="mt-6 w-full">
-                        <select name="sizes" id="sizes" className="form w-full uppercase" value={selectSize} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectSize(e.target.value)}>
-                            <option value="">Select Size</option>
-                            {product.sizes && product.sizes.map(size => (
-                                <option value={size._id} key={size._id} >{size.name}</option>
+                        {/* color */}
+                        <div className="flex space-x-3 mt-2 ml-1">
+                            {product.variants.map(variant => (
+                                <div key={variant._id} style={{ width: '20px', height: '20px', backgroundColor: variant.colorHex, cursor: 'pointer' }} className={`${variant.name === values.variant ? 'ring-1 ring-offset-2 ring-gray-700' : ''}`} onClick={() => {
+                                    //setSelectColor(variant.name)
+                                    setValues({ ...values, variant: variant.name })
+                                }} />
                             ))}
+                        </div>
 
-                        </select>
-                    </div>
+                        {/* size */}
+                        <div className="mt-6 w-full">
+                            <select name="sizes" id="sizes" className="form w-full uppercase" value={values.size} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                // setSelectSize(e.target.value)
+                                setValues({ ...values, size: e.target.value })
+                            }}>
+                                <option value="">Select Size</option>
+                                {product.sizes && product.sizes.map(size => (
+                                    <option value={size.name} key={size._id} >{size.name}</option>
+                                ))}
 
-                    <div className="text-center mt-6">
-                        <button className="btn w-full">Add to cart</button>
-                    </div>
+                            </select>
+                            {errors?.size && <p className="text-red-500 mt-1">{errors.size}</p>}
+                        </div>
 
-
+                        <div className="text-center mt-6">
+                            <button className="btn w-full" type="submit">Add to cart</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             {/* PRODUCTS SUGGESSION */}

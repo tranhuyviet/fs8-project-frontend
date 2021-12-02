@@ -6,6 +6,7 @@ import authReducer from './slices/authSlice';
 import confirmDialogReducer from './slices/confirmDialogSlice';
 import optionsReducer from './slices/optionsSlice';
 import productsReducer from './slices/productSlice';
+import cartReducer from './slices/cartSlice';
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         confirm: confirmDialogReducer,
         options: optionsReducer,
         products: productsReducer,
+        cart: cartReducer,
     },
 });
 export type AppDispatch = typeof store.dispatch;
