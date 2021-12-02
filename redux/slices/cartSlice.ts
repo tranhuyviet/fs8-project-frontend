@@ -20,6 +20,20 @@ const initialState = {
     subTotal: 0,
 };
 
+function calculate(cart) {
+    let totalItems = 0;
+    let subTotal = 0;
+    for (let item of cart) {
+        totalItems = totalItems + item.quantity;
+        subTotal = subTotal + item.price * item.quantity;
+    }
+
+    return {
+        totalItems,
+        subTotal,
+    };
+}
+
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
@@ -31,22 +45,48 @@ const cartSlice = createSlice({
             // if product already exists in cart -> only plus quantity
             if (isExist) {
                 isExist.quantity++;
-                // state.cart = [...state.cart, isExist];
             } else {
                 state.cart = [...state.cart, action.payload];
             }
 
-            let totalItems = 0;
-            let subTotal = 0;
-            for (let item of state.cart) {
-                totalItems += item.quantity;
-                subTotal = subTotal + item.price * item.quantity;
-            }
-            state.totalItems = totalItems;
-            state.subTotal = subTotal;
+            // let totalItems = 0;
+            // let subTotal = 0;
+            // for (let item of state.cart) {
+            //     totalItems += item.quantity;
+            //     subTotal = subTotal + item.price * item.quantity;
+            // }
+            const cal = calculate(state.cart);
+            state.totalItems = cal.totalItems;
+            state.subTotal = cal.subTotal;
+        },
+        setQuantity: (state, action) => {
+            const product = state.cart.find(
+                (product) => product._id === action.payload._id
+            );
+            product.quantity = action.payload.quantity * 1;
+
+            // let totalItems = 0;
+            // let subTotal = 0;
+            // for (let item of state.cart) {
+            //     totalItems = totalItems + item.quantity;
+            //     subTotal = subTotal + item.price * item.quantity;
+            // }
+            const cal = calculate(state.cart);
+            state.totalItems = cal.totalItems;
+            state.subTotal = cal.subTotal;
+        },
+        removeItem: (state, action) => {
+            console.log(action.payload);
+            const items = state.cart.filter(
+                (item) => item._id !== action.payload
+            );
+            state.cart = [...items];
+            const cal = calculate(state.cart);
+            state.totalItems = cal.totalItems;
+            state.subTotal = cal.subTotal;
         },
     },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, setQuantity, removeItem } = cartSlice.actions;
 export default cartSlice.reducer;

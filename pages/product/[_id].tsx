@@ -43,7 +43,7 @@ const ProductDetailPage = () => {
     const { values, setValues, handleChange, handleSubmit, errors, setErrors } = useFormik<ICartItem>({ initialValues, onSubmit })
 
     async function onSubmit(values) {
-        console.log('addToCart submit: ', values)
+
         if (values.size === '') {
             setErrors({ size: 'Please select a size' })
             return

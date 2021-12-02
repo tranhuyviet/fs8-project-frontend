@@ -30,7 +30,7 @@ const CartMenu = () => {
                         <div>
                             <div className="flex justify-between items-center mt-4">
                                 <p className="text-base">Subtotal ({totalItems} items):</p>
-                                <p className="text-lg font-poppins font-bold tracking-wider">${subTotal}</p>
+                                <p className="text-base font-poppins font-semibold tracking-wider">${subTotal}</p>
                             </div>
                             <Link href="/user/cart"><a className="btn mt-4">Shopping Cart</a></Link>
                         </div>
