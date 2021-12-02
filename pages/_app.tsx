@@ -8,7 +8,8 @@ import { store } from '../redux/store'
 
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:5001/api/v1'
+// axios.defaults.baseURL = 'http://localhost:5001/api/v1'
+axios.defaults.baseURL = 'https://fs8-project-backend.herokuapp.com/api/v1'
 axios.defaults.withCredentials = true
 
 function MyApp({ Component, pageProps }: AppProps) {
