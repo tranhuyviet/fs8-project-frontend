@@ -104,8 +104,8 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Hero />
       <main className="container">
-        <Hero />
         <Filters categories={categories} variants={variants} sizes={sizes} filter={filter} setFilter={setFilter} />
         <ProductList filter={filter} setFilter={setFilter} />
       </main>

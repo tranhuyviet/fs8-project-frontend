@@ -23,7 +23,8 @@ const Layout = ({ children }) => {
     return (
         <div className="relative">
             <Navbar />
-            <div className="min-h-[calc(100vh-64px-64px)] py-4">
+            <div className="min-h-[calc(100vh-64px-64px)]">
+                <div className="mt-16" />
                 {children}
             </div>
             <Footer />

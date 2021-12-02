@@ -98,7 +98,7 @@ const ProductDetailPage = () => {
                 <meta name="description" content="Ecommerce Website" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className="grid grid-cols-12 ] h-full">
+            <div className="grid grid-cols-12 h-full mt-8">
                 {/* left side: show list of thumb images */}
                 <div className="col-span-12 md:col-span-6 flex">
                     <div className="flex-none flex flex-col space-y-4 mr-4 cursor-pointer">

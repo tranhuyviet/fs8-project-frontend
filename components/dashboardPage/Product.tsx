@@ -162,7 +162,7 @@ const Product = () => {
             <form onSubmit={handleSubmit} className="flex flex-col mt-4  mx-auto p-4 border border-gray-500 shadow-lg" id="top2">
                 <div className="w-full">
                     <Input label="Product name" type="text" name="name" value={values.name} onChange={handleChange} error={errors?.name} className="py-2 w-full" />
-                    <Input label="Description" type="text" multi name="description" value={values.description} onChange={handleChange} error={errors?.description} className="py-2 w-full" />
+                    <Input label="Description" type="text" multi name="description" value={values.description} onChange={handleChange} error={errors?.description} className="py-2 w-full h-32" />
                     <div className="grid grid-cols-2 gap-4">
                         <Input label="Price(€)" type="number" name="price" value={values.price} onChange={handleChange} error={errors?.price} className="py-2 w-full" />
                         <Input label="Discount(%)" type="number" name="discount" value={values.discount} onChange={handleChange} error={errors?.discount} className="py-2 w-full" />

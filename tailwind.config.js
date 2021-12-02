@@ -9,6 +9,16 @@ module.exports = {
         extend: {
             fontFamily: {
                 poppins: ['Poppins', 'sans-serif'],
+                titillium: ['Titillium Web', 'sans-serif'],
+                rochester: ['Rochester', 'cursive'],
+                satisfy: ['Satisfy', 'cursive'],
+            },
+            backgroundImage: {
+                'hero-home': "url('/images/merry.webp')",
+            },
+            fontSize: {
+                heroTitle: '120px',
+                heroSubtitle: '70px',
             },
         },
     },

@@ -26,12 +26,13 @@ const Navbar = () => {
     }
 
     return (
-        <nav className='h-16 shadow-md'>
+        <nav className='h-16 shadow-md fixed w-screen z-50 bg-white top-0 left-0'>
             <div className='container flex items-center h-full'>
                 <Link href="/">
-                    <a>
-                        <h1 className='text-xl font-bold tracking-widest text-gray-700 uppercase'>
-                            fashion shop
+                    <a className="flex items-center">
+                        <img src="/images/logo.png" alt="logo" className="h-11" />
+                        <h1 className='text-xl uppercase tracking-widest text-gray-700 font-popins font-semibold ml-2 '>
+                            fashion
                         </h1>
                     </a>
                 </Link>

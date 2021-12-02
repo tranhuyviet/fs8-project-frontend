@@ -29,7 +29,7 @@ const Dashboard = () => {
 
     return (
         <main className="container my-4 ">
-            <div className="flex shadow-2xl">
+            <div className="flex shadow-2xl mt-4">
                 {/* side menu */}
                 <div className="text-white  bg-gray-700 border border-r-0">
                     <SideMenu setMenu={setMenu} menu={menu} />

@@ -34,7 +34,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
 
     return (
         <section className="mt-8">
-            {/* <h1 className="title">Our Product</h1> */}
+            <h1 className="title">Our Product</h1>
             {/* <h2 className="text-base mt-2">Total: <span className="font-bold">{total}</span> products</h2> */}
             <form onSubmit={searchByNameHandler}>
                 <div className="flex flex-col items-center mt-4 md:flex-row">

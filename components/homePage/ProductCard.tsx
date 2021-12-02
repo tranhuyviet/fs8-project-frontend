@@ -12,7 +12,7 @@ const ProductCard: NextPage<{ product: IProduct }> = ({ product }) => {
         <div className="text-center hover:cursor-pointer border hover:shadow-lg transition duration-500 " onClick={() => {
             router.push('/product/' + product._id)
         }}>
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center overflow-hidden">
                 <img src={product.images[0] || imageNotAvailable} width="260" height="300" alt={product.name} className="object-top object-cover hover:transform transition duration-700 hover:scale-110 " />
             </div>
             <div className="pb-4 px-4">
