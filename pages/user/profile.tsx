@@ -53,10 +53,10 @@ const Profile = () => {
                     <form noValidate onSubmit={handleSubmit}>
                         <Input label="name" type="text" name="name" value={values.name} onChange={handleChange} error={errors?.name} />
                         <Input label="email" type="email" name="email" value={values.email} onChange={handleChange} error={errors?.email} />
-                        <Input label="Image Url" type="text" name="image" value={values.image} onChange={handleChange} error={errors?.image} />
+                        <Input label="Image Url" type="search" name="image" value={values.image} onChange={handleChange} error={errors?.image} multi={true} className="h-[120px]" />
                         <div className="flex justify-end mt-6 space-x-4">
                             {/* <Link href="/"><a className="btn-reverse">Cancel</a></Link> */}
-                            <button className=" btn" type="submit">Save</button>
+                            <button className="btn" type="submit">Save</button>
                         </div>
                     </form>
                 </div>

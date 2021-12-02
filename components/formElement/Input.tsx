@@ -2,7 +2,7 @@ import React from 'react'
 import { NextPage } from 'next'
 
 interface IInput {
-    label: string
+    label?: string
     type: string
     name: string
     error?: string

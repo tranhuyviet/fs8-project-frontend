@@ -57,7 +57,7 @@ const LoginPage = () => {
                     <Input label="email" type="email" name="email" value={values.email} onChange={handleChange} error={errors?.email} />
                     <Input label="password" type="password" name="password" value={values.password} onChange={handleChange} error={errors?.password} />
                     <button className="mt-6 btn" type="submit">LOGIN</button>
-                    <Link href="/"><a className="mt-4 text-base text-indigo-600">Forgot your password?</a></Link>
+                    <Link href="/user/forgot-password"><a className="mt-4 text-base text-gray-700 hover:font-semibold">Forgot your password?</a></Link>
                 </form>
                 <div className="h-[1px] w-[60%] bg-gray-300 mt-10 mx-auto" />
                 <div className="mt-8">
