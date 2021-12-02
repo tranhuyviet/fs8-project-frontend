@@ -34,7 +34,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
 
     return (
         <section className="mt-8">
-            <h1 className="title">Our Product</h1>
+            {/* <h1 className="title">Our Product</h1> */}
             {/* <h2 className="text-base mt-2">Total: <span className="font-bold">{total}</span> products</h2> */}
             <form onSubmit={searchByNameHandler}>
                 <div className="flex flex-col items-center mt-4 md:flex-row">
@@ -45,7 +45,7 @@ const Filters: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: 
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
-                    <div className="flex flex-wrap w-full md:flex-nowrap md:w-auto md:ml-2">
+                    <div className="flex flex-wrap w-full xs:justify-between md:flex-nowrap md:w-auto md:ml-2">
                         {/* CATEGORY SELECT BOX */}
                         <div>
                             <select name="categories" id="categories" className="form uppercase text-xs mt-2 mr-2 md:text-sm md:mt-0" value={category} onChange={filterCategoryHandler} >

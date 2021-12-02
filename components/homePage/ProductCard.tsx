@@ -12,9 +12,11 @@ const ProductCard: NextPage<{ product: IProduct }> = ({ product }) => {
         <div className="text-center hover:cursor-pointer border hover:shadow-lg transition duration-500 " onClick={() => {
             router.push('/product/' + product._id)
         }}>
-            <img src={product.images[0] || imageNotAvailable} width="260" height="300" alt={product.name} className="object-top object-cover hover:transform transition duration-700 hover:scale-110 " />
-            <div className="pb-4">
-                <h2 className="truncate text-gray-500 font-poppins text-sm mt-2 mb-1 px-8 text-center">{product.name}</h2>
+            <div className="w-full flex justify-center">
+                <img src={product.images[0] || imageNotAvailable} width="260" height="300" alt={product.name} className="object-top object-cover hover:transform transition duration-700 hover:scale-110 " />
+            </div>
+            <div className="pb-4 px-4">
+                <h2 className="truncate text-gray-500 font-poppins text-sm mt-2 mb-1 text-center">{product.name}</h2>
                 <p className="font-semibold text-lg font-poppins text-center mt-2">{product.price}€</p>
                 <div className="flex justify-center mt-2 space-x-1">
                     {product.variants.map(variant => (
