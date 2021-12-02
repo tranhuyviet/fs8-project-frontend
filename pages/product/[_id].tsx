@@ -100,10 +100,10 @@ const ProductDetailPage = () => {
             </Head>
             <div className="grid grid-cols-12 ] h-full">
                 {/* left side: show list of thumb images */}
-                <div className=" col-span-6 flex">
+                <div className="col-span-12 md:col-span-6 flex">
                     <div className="flex-none flex flex-col space-y-4 mr-4 cursor-pointer">
                         {product.images && product.images.map((image, index) => (
-                            <img key={index} src={image} alt={product.name} className={`w-[100px] border-gray-700 ${image === selectImg ? 'border shadow-lg' : ''}`} onClick={() => setSelectImg(image)} />
+                            <img key={index} src={image} alt={product.name} className={`w-[80px] sm:w-[100px] border-gray-700 ${image === selectImg ? 'border shadow-lg' : ''}`} onClick={() => setSelectImg(image)} />
                         ))}
                     </div>
                     {/* center side: show big image, it is result of selected image in left side */}
@@ -113,9 +113,9 @@ const ProductDetailPage = () => {
                 </div>
 
                 {/* right side: information of product: name, description, price, colors, sizes, add to cart,... */}
-                <div className="col-span-6 pl-4">
+                <div className="col-span-12 mt-4 md:col-span-6 md:pl-4 md:mt-0">
                     <form onSubmit={handleSubmit}>
-                        <h1 className="font-poppins text-2xl font-bold tracking-wide">{product.name}</h1>
+                        <h1 className="font-poppins text-xl md:text-2xl font-bold tracking-wide">{product.name}</h1>
                         <p className="text-xl mt-2 font-semibold">{product.price}€</p>
                         <p className="text-sm text-gray-500 mt-2">{product.description}</p>
                         <p className="text-sm mt-4 ">Color: <span className="font-bold">{values.variant}</span></p>
@@ -155,7 +155,7 @@ const ProductDetailPage = () => {
             <div className="mb-6">
                 <p className="text-xl font-semibold tracking-wide mt-4">Similar items</p>
                 <p className="text-base text-gray-500">How about these?</p>
-                <div className="grid grid-cols-4 mt-4 ">
+                <div className="grid gap-y-4 md:gap-y-0 md:grid-cols-4 mt-4 ">
                     {productsSuggess && productsSuggess.map(product => (
                         <ProductCard product={product} key={product._id} />
                     ))}
