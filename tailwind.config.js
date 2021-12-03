@@ -20,6 +20,9 @@ module.exports = {
                 heroTitle: '120px',
                 heroSubtitle: '70px',
             },
+            margin: {
+                '-140': '-140px',
+            },
         },
     },
     variants: {
