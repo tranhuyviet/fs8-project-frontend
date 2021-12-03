@@ -70,7 +70,7 @@ export interface IProductFilter {
   size?: string
 }
 
-const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], rootUrl: string, user: IUserAuth }> = ({ categories, variants, sizes, rootUrl, user }) => {
+const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISize[], user: IUserAuth }> = ({ categories, variants, sizes, user }) => {
   const dispatch = useAppDispatch()
 
   // console.log('USER INDEX', user)
@@ -91,8 +91,8 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
     if (filter.variant) newUrl = newUrl + '&variant=' + filter.variant
     if (filter.size) newUrl = newUrl + '&size=' + filter.size
     if (filter.name) newUrl = newUrl + '&name=' + filter.name
-    dispatch(setFilterProductEndpoint(rootUrl + newUrl))
-  }, [filter, rootUrl, dispatch])
+    dispatch(setFilterProductEndpoint(newUrl))
+  }, [filter, dispatch])
 
   // console.log('INDEX RENDER')
 
@@ -115,8 +115,6 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
 
 export const getServerSideProps = async (context) => {
   try {
-
-    const rootUrl = process.env.BASE_ENDPOINT_URL
 
     // get all categories
     const resCategories = await axios.get(`/categories`)
@@ -146,7 +144,6 @@ export const getServerSideProps = async (context) => {
 
     return {
       props: {
-        rootUrl,
         categories,
         variants,
         sizes,
