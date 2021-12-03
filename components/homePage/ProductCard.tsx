@@ -12,8 +12,8 @@ const ProductCard: NextPage<{ product: IProduct }> = ({ product }) => {
         <div className="text-center hover:cursor-pointer border hover:shadow-lg transition duration-500 " onClick={() => {
             router.push('/product/' + product._id)
         }}>
-            <div className="w-full flex justify-center overflow-hidden">
-                <img src={product.images[0] || imageNotAvailable} width="260" height="300" alt={product.name} className="object-cover object-center hover:transform transition duration-700 hover:scale-110 " />
+            <div className="w-full flex justify-center overflow-hidden pt-4">
+                <img src={product.images[0] || imageNotAvailable} alt={product.name} className="object-cover object-center hover:transform transition duration-700 hover:scale-110 w-[260px] h-[300px]" />
             </div>
             <div className="pb-4 px-4">
                 <h2 className="truncate text-gray-500 font-poppins text-sm mt-2 mb-1 text-center">{product.name}</h2>
