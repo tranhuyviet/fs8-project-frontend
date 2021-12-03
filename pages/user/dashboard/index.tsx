@@ -22,10 +22,10 @@ const Dashboard = () => {
     const [menu, setMenu] = useState(EMenu.User)
 
     useEffect(() => {
-        if (!auth.isLoggedIn && auth.user.role !== 'admin') {
+        if (!auth.isLoggedIn && auth?.user?.role !== 'admin') {
             router.push('/')
         }
-    }, [auth.isLoggedIn, router, auth.user.role])
+    }, [auth.isLoggedIn, router, auth?.user?.role])
 
     return (
         <main className="container my-4 ">

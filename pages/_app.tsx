@@ -11,6 +11,8 @@ import axios from 'axios'
 // axios.defaults.baseURL = 'http://localhost:5001/api/v1'
 axios.defaults.baseURL = 'https://fs8-project-backend.herokuapp.com/api/v1'
 axios.defaults.withCredentials = true
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+// axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const router = useRouter()

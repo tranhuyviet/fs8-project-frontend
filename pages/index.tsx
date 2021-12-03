@@ -75,8 +75,10 @@ const Home: NextPage<{ categories: ICategory[], variants: IVariant[], sizes: ISi
 
   // console.log('USER INDEX', user)
   if (user) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`
     dispatch(login(user))
   }
+
 
   const [filter, setFilter] = useState<IProductFilter>({
     page: 1,
@@ -140,6 +142,7 @@ export const getServerSideProps = async (context) => {
     let user: IUserAuth = null
     if (token && token !== 'loggedout') {
       user = jwtDecode(token)
+      user.token = token
     }
 
     return {

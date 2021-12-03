@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 import { logout } from '../../redux/slices/authSlice'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-
+import cookie from 'js-cookie'
 
 
 const LoginMenu = () => {
@@ -14,9 +14,9 @@ const LoginMenu = () => {
     const dispatch = useAppDispatch()
 
     const handleLogout = async () => {
-        console.log('logout click')
         try {
             await axios.get('/users/logout')
+            cookie.remove('ecommerceJwt')
             dispatch(logout())
             router.push('/')
         } catch (error) {

@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import jwtDecode from 'jwt-decode'
 import { IUser } from '../redux/slices/authSlice'
 import mongoose from 'mongoose'
+import cookie from 'js-cookie'
 
 interface IRegister {
     name: string
@@ -38,6 +39,7 @@ const RegisterPage = () => {
             console.log('register data res: ', data)
             if (data.status === 'success') {
                 const user = data.data
+                cookie.set('ecommerceJwt', user.token, { expires: 30 })
                 dispatch(login(user))
                 router.push('/')
             }

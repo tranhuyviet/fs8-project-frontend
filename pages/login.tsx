@@ -13,6 +13,7 @@ import jwtDecode from 'jwt-decode'
 import { IUser } from '../redux/slices/authSlice'
 import mongoose from 'mongoose'
 import redirect from '../utils/redirect'
+import cookie from 'js-cookie'
 
 interface ILogin {
     email: string
@@ -34,6 +35,7 @@ const LoginPage = () => {
         try {
             const { data } = await axios.post('/users/login', values)
             const user = data.data
+            cookie.set('ecommerceJwt', user.token, { expires: 30 })
             dispatch(login(user))
             router.push('/')
         } catch (error) {
