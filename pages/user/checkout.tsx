@@ -14,7 +14,7 @@ const Checkout = () => {
 
     return (
         <main className="container">
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-6">
                 <div className="w-[600px] shadow-lg flex flex-col items-center p-6 border">
                     <img src="/images/logo.png" className="h-[70px]" />
                     {/* <h2 className="text-xl font-semibold uppercase tracking-wider font-poppins mt-4">Total amout: €{cartRes.subTotal}</h2> */}
@@ -43,10 +43,12 @@ const Checkout = () => {
                         <Input label="Card number" type="text" name="cardNumber" />
 
                         <div className="grid grid-cols-2 gap-x-4">
-                            <Input label="Expiry Date (MM/YY)" type="text" name="city" />
+                            <Input label="Expiry Date" type="text" name="city" />
                             <Input label="CVC" type="text" name="cvc" />
                         </div>
-                        <button className="btn w-full mt-6">Pay ${cartRes.subTotal}</button>
+                        <button className="btn w-full mt-6 flex justify-center items-center h-[50px]"><span className="mr-2"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg></span>Pay ${cartRes.subTotal}</button>
                     </div>
                 </div>
 
