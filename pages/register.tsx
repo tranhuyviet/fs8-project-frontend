@@ -4,14 +4,15 @@ import Input from '../components/formElement/Input'
 import { useFormik } from 'formik'
 import axios from 'axios'
 import GlobalMessage from '../components/formElement/GlobalMessage'
-import { useAppDispatch } from '../redux/hooks'
-import { login } from '../redux/slices/authSlice'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { login, setCheckout } from '../redux/slices/authSlice'
 import { useRouter } from 'next/router'
 
 import jwtDecode from 'jwt-decode'
 import { IUser } from '../redux/slices/authSlice'
 import mongoose from 'mongoose'
 import cookie from 'js-cookie'
+
 
 interface IRegister {
     name: string
@@ -22,6 +23,7 @@ interface IRegister {
 }
 
 const RegisterPage = () => {
+    const isCheckout = useAppSelector(state => state.auth.isCheckout)
     const dispatch = useAppDispatch()
     const router = useRouter()
     const initialValues: IRegister = {
@@ -41,7 +43,12 @@ const RegisterPage = () => {
                 const user = data.data
                 cookie.set('ecommerceJwt', user.token, { expires: 30 })
                 dispatch(login(user))
-                router.push('/')
+                if (isCheckout) {
+                    router.push('/user/checkout')
+                    dispatch(setCheckout(false))
+                } else {
+                    router.push('/')
+                }
             }
             return
         } catch (error) {

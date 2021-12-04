@@ -5,8 +5,8 @@ import axios from 'axios'
 import React from 'react'
 import GlobalMessage from '../components/formElement/GlobalMessage'
 
-import { useAppDispatch } from '../redux/hooks'
-import { login } from '../redux/slices/authSlice'
+import { useAppSelector, useAppDispatch } from '../redux/hooks'
+import { login, setCheckout } from '../redux/slices/authSlice'
 import { useRouter } from 'next/router'
 
 import jwtDecode from 'jwt-decode'
@@ -15,6 +15,7 @@ import mongoose from 'mongoose'
 import redirect from '../utils/redirect'
 import cookie from 'js-cookie'
 
+
 interface ILogin {
     email: string
     password: string
@@ -22,6 +23,7 @@ interface ILogin {
 }
 
 const LoginPage = () => {
+    const isCheckout = useAppSelector(state => state.auth.isCheckout)
     const initialValues: ILogin = {
         email: '',
         password: ''
@@ -37,7 +39,12 @@ const LoginPage = () => {
             const user = data.data
             cookie.set('ecommerceJwt', user.token, { expires: 30 })
             dispatch(login(user))
-            router.push('/')
+            if (isCheckout) {
+                router.push('/user/checkout')
+                dispatch(setCheckout(false))
+            } else {
+                router.push('/')
+            }
         } catch (error) {
             setErrors(error.response.data.errors)
         }

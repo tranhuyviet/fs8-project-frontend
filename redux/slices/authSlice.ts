@@ -14,6 +14,7 @@ export interface IUser {
 const initialState = {
     user: <IUser>{},
     isLoggedIn: false,
+    isCheckout: false,
 };
 
 const authSlice = createSlice({
@@ -27,9 +28,13 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.isLoggedIn = false;
+            state.isCheckout = false;
+        },
+        setCheckout: (state, action) => {
+            state.isCheckout = action.payload;
         },
     },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setCheckout } = authSlice.actions;
 export default authSlice.reducer;

@@ -6,10 +6,10 @@ interface IInput {
     type: string
     name: string
     error?: string
-    value: string | number,
+    value?: string | number,
     className?: string
     multi?: boolean
-    onChange: (e: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
+    onChange?: (e: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 const Input = ({ label, type, name, error, value, onChange, className, multi = false }: IInput) => {

@@ -39,7 +39,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        if (!auth.isLoggedIn) router.push('/')
+        if (!auth.isLoggedIn) router.push('/login')
     }, [auth.isLoggedIn, router])
 
     return (

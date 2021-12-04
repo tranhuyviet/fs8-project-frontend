@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 import { setQuantity, removeItem } from '../../redux/slices/cartSlice'
+import { setCheckout } from '../../redux/slices/authSlice'
 import Link from 'next/link'
 
 const Cart = () => {
@@ -61,9 +62,8 @@ const Cart = () => {
                 </div>
                 <div className="col-span-3 md:col-span-1 border shadow-lg mt-6 md:mt-0 mb-4 md:mb-0">
                     <h2 className="font-bold text-lg mb-4 uppercase bg-gray-700 text-white py-3 pl-4">Total amount</h2>
-                    <div className="p-4">
-
-                        <div className="flex justify-between items-center mt-4">
+                    <div className="px-4 py-2">
+                        <div className="flex justify-between items-center">
                             <p className="text-base">Subtotal ({totalItems} items):</p>
                             <p className="text-base font-poppins tracking-wider">${subTotal}</p>
                         </div>
@@ -75,8 +75,8 @@ const Cart = () => {
                             <p className="text-base ">Total (24% alv):</p>
                             <p className="text-base font-poppins font-semibold tracking-wider">${subTotal}</p>
                         </div>
-                        <div>
-                            <button className="btn-reverse w-full mt-4">Checkout</button>
+                        <div className="flex justify-center">
+                            <Link href="/user/checkout" ><a className="btn-reverse mt-4 w-full" onClick={() => dispatch(setCheckout(true))}>Checkout</a></Link>
                         </div>
                     </div>
                 </div>

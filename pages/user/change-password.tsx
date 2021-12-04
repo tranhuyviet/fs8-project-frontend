@@ -45,7 +45,7 @@ const ChangePassword = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!isLoggedIn) router.push('/')
+        if (!isLoggedIn) router.push('/login')
     }, [isLoggedIn, router])
 
     return (

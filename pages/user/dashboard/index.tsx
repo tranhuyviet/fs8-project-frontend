@@ -23,7 +23,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (!auth.isLoggedIn && auth?.user?.role !== 'admin') {
-            router.push('/')
+            router.push('/login')
         }
     }, [auth.isLoggedIn, router, auth?.user?.role])
 
