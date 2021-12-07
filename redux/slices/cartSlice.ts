@@ -25,7 +25,8 @@ function calculate(cart) {
     let subTotal = 0;
     for (let item of cart) {
         totalItems = totalItems + item.quantity;
-        subTotal = subTotal + item.price * item.quantity;
+        subTotal =
+            Math.round((subTotal + item.price * item.quantity) * 1e2) / 1e2;
     }
 
     return {

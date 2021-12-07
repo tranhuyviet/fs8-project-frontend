@@ -51,7 +51,7 @@ const Cart = () => {
                                             <option key={quantity} value={quantity}>{quantity}</option>
                                         ))}
                                     </select>
-                                    <p className="font-semibold text-base text-right">${item.quantity * item.price}</p>
+                                    <p className="font-semibold text-base text-right">${Math.round((item.quantity * item.price) * 1e2) / 1e2}</p>
                                 </div>
                             </div>
                         </div>

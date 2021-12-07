@@ -14,7 +14,7 @@ const Checkout = () => {
 
     return (
         <main className="container">
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center mt-6 mb-6">
                 <div className="w-[600px] shadow-lg flex flex-col items-center p-6 border">
                     <img src="/images/logo.png" className="h-[70px]" />
                     {/* <h2 className="text-xl font-semibold uppercase tracking-wider font-poppins mt-4">Total amout: €{cartRes.subTotal}</h2> */}
