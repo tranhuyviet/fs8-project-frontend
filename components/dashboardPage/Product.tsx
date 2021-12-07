@@ -9,7 +9,11 @@ import Input from '../formElement/Input'
 import { useFormik } from 'formik'
 import classNames from 'classnames'
 import { setProducts, addProduct, updateProduct } from '../../redux/slices/productSlice'
-
+import Filter from '../homePage/Filters'
+import { IProductFilter } from '../../pages/index'
+import { setFilterProductEndpoint } from '../../redux/slices/apiEnpointSlice'
+import Pagination from '../homePage/Pagination'
+import ReactLoading from 'react-loading'
 
 
 interface IProduct {
@@ -30,9 +34,17 @@ interface IProduct {
 
 const Product = () => {
     const dispatch = useAppDispatch()
+    const apiEnpoint = useAppSelector(state => state.apiEndpoint.filterProductEndpoint)
     const products = useAppSelector(state => state.products.products)
+    // console.log('URL: ', apiEnpoint)
+    const { data, error } = useSWR(apiEnpoint, fetchApi)
     // const { data, error } = useSWR('/products', fetchApi)
     // const [products, setProducts] = useState<IProduct[]>()
+
+    useEffect(() => {
+        if (data && data.data) dispatch(setProducts(data.data))
+    }, [data, dispatch])
+
 
     const [imageUrl, setImageUrl] = useState('')
 
@@ -109,9 +121,10 @@ const Product = () => {
 
     // HANDLE EDIT BUTTON CLICK
     const handleEditButtonClick = (product) => {
+        console.log(product)
         window.scrollTo({ top: 0, behavior: "smooth" });
         setEdit({ isEdit: true, _id: product._id })
-        const category = product.category._id
+        const category = product.category
         const variants = product.variants.map(variant => variant._id)
         const sizes = product.sizes.map(size => size._id)
 
@@ -147,6 +160,31 @@ const Product = () => {
         const images = temp.filter((image, i) => i !== index)
         setValues({ ...values, images })
     }
+
+    const [filter, setFilter] = useState<IProductFilter>({
+        page: 1,
+        limit: 9
+    })
+
+    useEffect(() => {
+        let newUrl = '/products?'
+        if (filter.page) newUrl = newUrl + '&page=' + filter.page
+        if (filter.limit) newUrl = newUrl + '&limit=' + filter.limit
+        if (filter.category) newUrl = newUrl + '&category=' + filter.category
+        if (filter.variant) newUrl = newUrl + '&variant=' + filter.variant
+        if (filter.size) newUrl = newUrl + '&size=' + filter.size
+        if (filter.name) newUrl = newUrl + '&name=' + filter.name
+        console.log('NEW URL: ', newUrl)
+        dispatch(setFilterProductEndpoint(newUrl))
+    }, [filter, dispatch])
+
+    if (error) return <p>Loading products error...</p>
+    if (!data) return (<div className="w-full flex justify-center items-center mt-2 min-h-[calc(100vh-64px-64px-272px-90px-32px-25px)]">
+        <div className="flex flex-col items-center justify-center">
+            <p className="text-gray-600">LOADING PRODUCTS</p>
+            <ReactLoading type="bars" color="#6B7280" />
+        </div>
+    </div>)
 
     // useEffect(() => {
     //     if (data) setProducts(data.data)
@@ -259,10 +297,15 @@ const Product = () => {
                     </div>
                 </div>
             </form >
+
+            {/* filter */}
+            <Filter categories={categories} variants={variants} sizes={sizes} filter={filter} setFilter={setFilter} />
+
             <div className="w-full mt-6 shadow-lg">
                 {/* table header */}
                 <div className="grid grid-cols-12 px-4 uppercase text-xs font-semibold bg-gray-100 py-3 rounded-t-xl border ">
-                    <p className="col-span-10">name</p>
+                    <p className="col-span-1 text-center"></p>
+                    <p className="col-span-9">name</p>
                     <p className="col-span-1 text-center">Edit</p>
                     <p className="col-span-1 text-center">Delete</p>
                 </div>
@@ -270,7 +313,10 @@ const Product = () => {
                 <div className="border border-t-0 relative">
                     {products && products.map(product => (
                         <div className="grid grid-cols-12 px-4 py-3 border-b last:border-b-0 capitalize" key={product._id}>
-                            <div className="col-span-10 flex items-center">
+                            <div className="col-span-1 flex items-center">
+                                <img src={product.images[0]} alt={product.name} className="h-[70px]" />
+                            </div>
+                            <div className="col-span-9 flex items-center">
                                 <p>{product.name}</p>
                             </div>
                             <p className={classNames("col-span-1 text-center self-center font-semibold  cursor-pointer ", { 'text-gray-400': edit.isEdit }, { 'text-indigo-700': !edit.isEdit })} onClick={() => handleEditButtonClick(product)}>Edit</p>
@@ -283,6 +329,9 @@ const Product = () => {
                     {edit.isEdit && <div className="absolute inset-0 w-full h-full bg-gray-300 opacity-50 cursor-not-allowed" />}
 
                 </div>
+            </div>
+            <div className="mt-8">
+                <Pagination filter={filter} setFilter={setFilter} total={data.total} />
             </div>
             {confirm.show && <ConfirmDialog confirm={confirm} closeConfirm={() => dispatch(closeConfirmDialog())} handleDelete={handleDeleteProduct} />}
 

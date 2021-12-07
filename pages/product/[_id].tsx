@@ -123,7 +123,7 @@ const ProductDetailPage = () => {
                         {/* color */}
                         <div className="flex space-x-3 mt-2 ml-1">
                             {product.variants.map(variant => (
-                                <div key={variant._id} style={{ width: '20px', height: '20px', backgroundColor: variant.colorHex, cursor: 'pointer' }} className={`${variant.name === values.variant ? 'ring-1 ring-offset-2 ring-gray-700' : ''}`} onClick={() => {
+                                <div key={variant._id} style={{ width: '20px', height: '20px', backgroundColor: variant.colorHex, cursor: 'pointer' }} className={`${variant.name === values.variant ? 'ring-1 ring-offset-2 ring-gray-700 border' : ' border'}`} onClick={() => {
                                     //setSelectColor(variant.name)
                                     setValues({ ...values, variant: variant.name })
                                 }} />
