@@ -7,7 +7,7 @@ Nextjs, Reactjs, Redux-toolkit, Tailwindcss, Formik, Swr
 
 ## Features:
 
-1.User and Authentication:
+1. User and Authentication:
 - Sign up a new user (name, email, password, confirm password)
 - Sign in the user with email and password: used jwt for authentication and cookie
 - Log out the user
